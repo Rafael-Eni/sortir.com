@@ -3,7 +3,7 @@
 
         <div class="d-flex justify-content-center align-items-center ">
 {#            <img class="me-2 w-25 p-2" src="#" alt="logo">#}
-            <a class="navbar-brand" href="#">SORTIR.COM</a>
+            <a class="navbar-brand" href="{{ path('app_main') }}">SORTIR.COM</a>
         </div>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -13,24 +13,18 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Buckets</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About us</a>
+                    <a class="nav-link active" href="{{ path('app_main') }}">Home</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Connexion</a>
+                        <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">S'enregistrer</a>
+                        <a class="nav-link" href="{{ path('app_register') }}">S'enregistrer</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Deconnexion</a>
+                        <a class="nav-link" href="{{ path('app_logout') }}">Deconnexion</a>
                     </li>
 
             </ul>
