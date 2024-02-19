@@ -2,7 +2,7 @@
     <div class="container-fluid">
 
         <div class="d-flex justify-content-center align-items-center ">
-{#            <img class="me-2 w-25 p-2" src="#" alt="logo">#}
+            {#            <img class="me-2 w-25 p-2" src="#" alt="logo"> #}
             <a class="navbar-brand" href="{{ path('app_main') }}">SORTIR.COM</a>
         </div>
 
@@ -15,17 +15,25 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ path('app_main') }}">Sorties</a>
                 </li>
+                {% if is_granted('IS_AUTHENTICATED') %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('app_main') }}">Profil</a>
+                </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav ms-auto">
+                {% if not is_granted('IS_AUTHENTICATED') %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_register') }}">S'enregistrer</a>
                     </li>
+                {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}">Deconnexion</a>
                     </li>
+                {% endif %}
 
             </ul>
         </div>
