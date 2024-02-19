@@ -12,7 +12,7 @@
         {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 {% include "partials/_header.html.twig" %}
 <div class="container p-2 flex-fill d-flex align-items-center justify-content-center flex-column" id="main-container">
     {% block body %}
