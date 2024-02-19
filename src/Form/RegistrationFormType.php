@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Button;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,13 +22,29 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('pseudo', TextType::class, [
+                'required' => false,
+                'label' => 'Pseudo',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci de renseigner votre pseudo',
+                    ])
+                ]
+            ])
             ->add('email', TextType::class, [
-                'label' => 'E-mail'
+                'label' => 'E-mail',
+                'required' => false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci de renseigner votre e-mail',
+                    ]),
+                ],
             ])
             ->add('plainPassword', PasswordType::class, [
-                                // instead of being set onto the object directly,
+                // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
+                'required' => false,
                 'label' => 'Mot de passe',
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -43,15 +60,47 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('nom', TextType::class, [
-                'label' => 'Nom'
+                'required' => false,
+                'label' => 'Nom',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci de renseigner votre nom',
+                    ])
+                ]
             ])
             ->add('prenom', TextType::class, [
-                'label' => 'Prénom'
+                'required' => false,
+                'label' => 'Prénom',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci de renseigner votre prénom',
+                    ])
+                ]
+            ])
+            ->add('sexe', ChoiceType::class, [
+                'required' => false,
+                'label' => 'Sexe',
+                'choices' => [
+                    'Feminim' => 'femme',
+                    'Masculin' => 'homme'
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci de renseigner votre nom',
+                    ])
+                ]
             ])
             ->add('telephone', TextType::class, [
-                'label' => 'Téléphone'
+                'required' => false,
+                'label' => 'Téléphone',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Merci de renseigner votre numéro de téléphone',
+                    ]),
+                ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
+                'required' => false,
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
