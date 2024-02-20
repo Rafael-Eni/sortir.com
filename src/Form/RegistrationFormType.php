@@ -109,8 +109,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'label' => 'Accepter les termes & conditions'
             ])
-            ->add('submit', SubmitType::class)
-        ;
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
