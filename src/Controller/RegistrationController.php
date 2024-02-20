@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\RegistrationFormType;
-use App\Helper\MailSender;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -27,7 +26,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailSender $mailSender): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new Participant();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -58,6 +57,8 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
+            $this->addFlash("success", "Tu viens de recevoir un email de vérification pour valider ton compte");
+
             return $this->redirectToRoute('app_verify_email');
         }
 
@@ -83,6 +84,6 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_login');
     }
 }

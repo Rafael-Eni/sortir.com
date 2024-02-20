@@ -17,7 +17,7 @@
                 </li>
                 {% if is_granted('IS_AUTHENTICATED') %}
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ path('app_profil', {'id': app.user.id}) }}">Profil</a>
+                    <a class="nav-link active" href="{{ path('app_profil', {'id' : app.user.id}) }}">Profil</a>
                 </li>
                 {% endif %}
             </ul>
