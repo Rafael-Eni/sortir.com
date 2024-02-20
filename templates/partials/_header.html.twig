@@ -13,11 +13,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ path('app_main') }}">Home</a>
+                    <a class="nav-link active" href="{{ path('app_main') }}">Sorties</a>
                 </li>
                 {% if is_granted('IS_AUTHENTICATED') %}
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ path('app_profil', {'id': app.user.id}) }}">Profil</a>
+                    <a class="nav-link active" href="{{ path('app_profil', {'id' : app.user.id}) }}">Profil</a>
                 </li>
                 {% endif %}
             </ul>
