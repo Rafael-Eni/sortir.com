@@ -21,7 +21,6 @@ class SortieController extends AbstractController
             'sorties' => $sortieRepository->findAll(),
         ]);
     }
-
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -53,29 +52,43 @@ class SortieController extends AbstractController
     #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(SortieType::class, $sortie);
-        $form->handleRequest($request);
+        if ($sortie->getOrganisateur()->getEmail() === $this->getUser()->getUserIdentifier()){
+            $form = $this->createForm(SortieType::class, $sortie);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->flush();
 
-            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+            return $this->render('sortie/edit.html.twig', [
+                'sortie' => $sortie,
+                'form' => $form,
+            ]);
+        }
+        else{
+            return $this->redirectToRoute("app_sortie_index");
         }
 
-        return $this->render('sortie/edit.html.twig', [
-            'sortie' => $sortie,
-            'form' => $form,
-        ]);
     }
 
     #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($sortie);
-            $entityManager->flush();
+        if ($sortie->getOrganisateur()->getEmail() === $this->getUser()->getUserIdentifier()){
+            if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
+                $entityManager->remove($sortie);
+                $entityManager->flush();
+            }
+
+            return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+        }
+        else{
+            return $this->redirectToRoute("app_sortie_show", [
+                "id" => $sortie->getId(),
+            ]);
         }
 
-        return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 }
