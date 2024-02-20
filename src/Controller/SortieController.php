@@ -120,4 +120,38 @@ class SortieController extends AbstractController
         }
 
     }
+
+    #[Route('/{id}/suscribe', name: 'app_sortie_suscribe', methods: ['GET'])]
+    public function suscribe(Sortie $sortie, EntityManagerInterface $entityManager): Response {
+        $participants = $sortie->getInscrits();
+        $currentUser = $this->getUser();
+
+        $isSuscribed = $participants->contains($currentUser);
+
+        $maxParticipant = $sortie->getNbInscriptionMax();
+        $hasTickets = $participants->count() < $maxParticipant;
+
+        $isBeforeLimitDate = date('now') < $sortie->getDateLimiteInscription();
+
+        $isOrganisateur = $currentUser->getId() == $sortie->getOrganisateur()->getId();
+
+        if(!$isSuscribed && $hasTickets && $isBeforeLimitDate && $sortie->isIsPublished() && !$isOrganisateur) {
+            $sortie->getInscrits()->add($currentUser);
+            $entityManager->flush();
+            $this->addFlash('success', 'Vous avez été inscrit à l\'évènement');
+        } else {
+            $errorMsg = [];
+            if($isSuscribed) array_push($errorMsg, 'Vous êtes déjà inscrit');
+            if(!$hasTickets) array_push($errorMsg, 'Evenement complet');
+            if(!$isBeforeLimitDate) array_push($errorMsg, 'Date inscription dépassée');
+            if($sortie->isIsPublished()) array_push($errorMsg, 'Evenement pas encore ouvert');
+            if($isOrganisateur) array_push($errorMsg, 'C\'est toi l\'organisateur');
+
+            foreach ($errorMsg as $msg) {
+                $this->addFlash('warning', $msg);
+            }
+        }
+
+        return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
+    }
 }

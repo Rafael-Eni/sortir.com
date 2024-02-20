@@ -8,10 +8,6 @@
     <table class="table">
         <tbody>
         <tr>
-            <th>Id</th>
-            <td>{{ sortie.id }}</td>
-        </tr>
-        <tr>
             <th>Nom</th>
             <td>{{ sortie.nom }}</td>
         </tr>
@@ -35,7 +31,23 @@
             <th>InfosSortie</th>
             <td>{{ sortie.infosSortie }}</td>
         </tr>
+        <tr>
+            <th>Action</th>
+            <td><a class="btn btn-primary btn-sm" href="{{ path('app_sortie_suscribe', {'id': sortie.id}) }}">S'inscrire
+                    à l'évènement</a></td>
+        </tr>
         </tbody>
+        <tr>
+            <th>Participant</th>
+            <td>
+                {% for participant in sortie.inscrits %}
+                    <p>{{ participant.nom }} {{ participant.prenom }}</p>
+                {% endfor %}
+            </td>
+        </tr>
+
+        </tr>
+
     </table>
 
     <a href="{{ path('app_sortie_index') }}">back to list</a>
