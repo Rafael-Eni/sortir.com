@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Form\ProfilType;
 use App\Form\RegistrationFormType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,29 +31,22 @@ class ProfilController extends AbstractController
     public function updateProfil(int $id, ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $user = $participantRepository->find($id);
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(ProfilType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('poster_file')->getData() instanceof UploadedFile) {
-                $dir = $this->getParameter('poster_dir');
+                $dir = $this->getParameter('profil_pic_dir');
                 $posterFile = $form->get('poster_file')->getData();
-                $fileName = $slugger->slug($user->getFirstName()) . '-' . uniqid() . '.' . $posterFile->guessExtension();
-                $posterFile->move($this->getParameter('poster_dir'), $fileName);
+                $fileName = $slugger->slug($user->getPseudo()) . '-' . uniqid() . '.' . $posterFile->guessExtension();
+                $posterFile->move($this->getParameter('profil_pic_dir'), $fileName);
                 if ($user->getPosterFile() && \file_exists($dir . '/' . $user->getPosterFile())) {
                     unlink($dir . '/' . $user->getPosterFile());
                 }
                 $user->setPosterFile($fileName);
             }
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
             $entityManager->flush();
-            return $this->redirectToRoute('app_profil_user', ['id' => $user->getId()]);
+            return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
         }
         return $this->render('profil/updateProfil.html.twig', [
             'form' => $form->createView(),
