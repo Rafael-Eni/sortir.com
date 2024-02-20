@@ -49,6 +49,9 @@ class Sortie
     #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: 'sorties')]
     private Collection $inscrits;
 
+    #[ORM\Column]
+    private ?bool $isPublished = null;
+
     public function __construct()
     {
         $this->inscrits = new ArrayCollection();
@@ -199,6 +202,18 @@ class Sortie
     public function removeInscrit(Participant $inscrit): static
     {
         $this->inscrits->removeElement($inscrit);
+
+        return $this;
+    }
+
+    public function isIsPublished(): ?bool
+    {
+        return $this->isPublished;
+    }
+
+    public function setIsPublished(bool $isPublished): static
+    {
+        $this->isPublished = $isPublished;
 
         return $this;
     }

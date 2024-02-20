@@ -2,16 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/sortie')]
+#[IsGranted('ROLE_USER')]
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET'])]
@@ -22,13 +26,31 @@ class SortieController extends AbstractController
         ]);
     }
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Create Ville
+            $ville = $sortie->getLieu()->getVille();
+            $entityManager->persist($ville);
+
+            // Create lieu
+            $lieu = $sortie->getLieu();
+            $entityManager->persist($lieu);
+
+            // Set oraganisateur
+            $sortie->setOrganisateur($this->getUser());
+
+            // Set creation state
+            $isPublished = $sortie->isIsPublished();
+            $state = $isPublished ? 2 : 1;
+            $creationState = $etatRepository->find($state);
+            $sortie->setEtat($creationState);
+
+            // Persist entity
             $entityManager->persist($sortie);
             $entityManager->flush();
 
@@ -50,13 +72,20 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
-        if ($sortie->getOrganisateur()->getEmail() === $this->getUser()->getUserIdentifier()){
+        $isUserOrganisateur = $sortie->getOrganisateur()->getEmail() === $this->getUser()->getUserIdentifier();
+        $isSortiePublished = $sortie->isIsPublished();
+        if ($isUserOrganisateur && !$isSortiePublished){
             $form = $this->createForm(SortieType::class, $sortie);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                // Set creation state
+                $isPublished = $sortie->isIsPublished();
+                $state = $isPublished ? 2 : 1;
+                $creationState = $etatRepository->find($state);
+                $sortie->setEtat($creationState);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
