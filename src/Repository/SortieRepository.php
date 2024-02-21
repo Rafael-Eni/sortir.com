@@ -21,28 +21,46 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-//    /**
-//     * @return Sortie[] Returns an array of Sortie objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?Sortie
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findByFilters(array $filters = []): array
+    {
+        $qb = $this->createQueryBuilder('s');
+
+        if (!empty($filters['organisateur'])) {
+            $qb->andWhere('s.organisateur = :organisateur')
+                ->setParameter('organisateur', $filters['organisateur']);
+        }
+        if (!empty($filters['participant'])) {
+            $qb->leftJoin('s.inscrits', 'inscrits')
+                ->andWhere('inscrits = :participant')
+                ->setParameter('participant', $filters['participant']);
+        }
+        if (!empty($filters['nonParticipant'])) {
+            $qb->leftJoin('s.inscrits', 'inscrits')
+                ->andWhere('inscrits != :non_participant')
+                ->setParameter('non_participant', $filters['nonParticipant']);
+        }
+        if (!empty($filters['finished'])) {
+            $qb->andWhere('s.etat = :etat')
+                ->setParameter('etat', $filters['finished']);
+        }
+        if (!empty($filters['search'])) {
+            $qb->andWhere('s.nom LIKE :nom')
+                ->setParameter('nom', '%' . $filters['search'] . '%');
+        }
+        if (!empty($filters['site'])) {
+            $qb->andWhere('s.site = :site')
+                ->setParameter('site', $filters['site']);
+        }
+        if (!empty($filters['dateDebut'])) {
+            $qb->andWhere('s.dateHeureDebut >= :dateDebut')
+                ->setParameter('dateDebut', $filters['dateDebut']);
+        }
+        if (!empty($filters['dateFin'])) {
+            $qb->andWhere('s.dateLimiteInscription <= :dateFin')
+                ->setParameter('dateFin', $filters['dateFin']);
+        }
+        return $qb->getQuery()->getResult();
+    }
 }
+
