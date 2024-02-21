@@ -20,23 +20,23 @@ class ProfilType extends AbstractType
                 'required' => false,
             ])
             ->add('nom',TextType::class,[
-                'label' => 'Email :',
+                'label' => 'Nom :',
                 'required' => false,
             ])
             ->add('prenom',TextType::class,[
-                'label' => 'Email :',
+                'label' => 'Prenom :',
                 'required' => false,
             ])
             ->add('pseudo',TextType::class,[
-                'label' => 'Email :',
+                'label' => 'Pseudo :',
                 'required' => false,
             ])
             ->add('sexe',TextType::class,[
-                'label' => 'Email :',
+                'label' => 'Sexe :',
                 'required' => false,
             ])
             ->add('telephone',TextType::class,[
-                'label' => 'Email :',
+                'label' => 'Telephone :',
                 'required' => false,
             ])
             ->add('poster_file', FileType::class, [
