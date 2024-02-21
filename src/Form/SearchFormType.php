@@ -23,6 +23,7 @@ class SearchFormType extends AbstractType
     {
         $builder
             ->add('site', EntityType::class, [
+                'required' => false,
                 'label' => 'Ecole de rattachement',
                 'class' => Site::class,
                 'choice_label' => 'nom',
