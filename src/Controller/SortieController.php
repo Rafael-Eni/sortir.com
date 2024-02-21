@@ -122,7 +122,8 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/suscribe', name: 'app_sortie_suscribe', methods: ['GET'])]
-    public function suscribe(Sortie $sortie, EntityManagerInterface $entityManager): Response {
+    public function suscribe(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response {
+
         $participants = $sortie->getInscrits();
         $currentUser = $this->getUser();
 
@@ -137,6 +138,10 @@ class SortieController extends AbstractController
 
         if(!$isSuscribed && $hasTickets && $isBeforeLimitDate && $sortie->isIsPublished() && !$isOrganisateur) {
             $sortie->getInscrits()->add($currentUser);
+            if ($participants->count() == $maxParticipant){
+                $creationState = $etatRepository->find(3);
+                $sortie->setEtat($creationState);
+            }
             $entityManager->flush();
             $this->addFlash('success', 'Vous avez été inscrit à l\'évènement');
         } else {
@@ -144,7 +149,7 @@ class SortieController extends AbstractController
             if($isSuscribed) array_push($errorMsg, 'Vous êtes déjà inscrit');
             if(!$hasTickets) array_push($errorMsg, 'Evenement complet');
             if(!$isBeforeLimitDate) array_push($errorMsg, 'Date inscription dépassée');
-            if($sortie->isIsPublished()) array_push($errorMsg, 'Evenement pas encore ouvert');
+            if(!$sortie->isIsPublished()) array_push($errorMsg, 'Evenement pas encore ouvert');
             if($isOrganisateur) array_push($errorMsg, 'C\'est toi l\'organisateur');
 
             foreach ($errorMsg as $msg) {
@@ -154,4 +159,38 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
     }
+
+    #[Route('/{id}/unsubscribe', name: 'app_sortie_unsubscribe', methods: ['GET'])]
+    public function unsubscribe(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
+    {
+        $participants = $sortie->getInscrits();
+        $currentUser = $this->getUser();
+        $maxParticipant = $sortie->getNbInscriptionMax();
+
+        $isOrganisateur = $currentUser->getId() == $sortie->getOrganisateur()->getId();
+        $isSuscribed = $participants->contains($currentUser);
+        $isBeforeStartDate = new \DateTime()< $sortie->getDateHeureDebut();
+
+        if(!$isOrganisateur && $isSuscribed && $isBeforeStartDate){
+            $participants->removeElement($currentUser);
+            if ($participants->count() < $maxParticipant){
+                $creationState = $etatRepository->find(2);
+                $sortie->setEtat($creationState);
+            }
+            $entityManager->flush();
+            $this->addFlash('success', 'Vous avez été désinscrit de l\'évènement');
+        }else{
+            $errorMsg = [];
+            if(!$isSuscribed) array_push($errorMsg, 'Vous n\'êtes pas inscrit');
+            if(!$isBeforeStartDate) array_push($errorMsg, 'Evènement déjà commencé');
+            if($isOrganisateur) array_push($errorMsg, 'C\'est toi l\'organisateur');
+
+            foreach ($errorMsg as $msg) {
+                $this->addFlash('warning', $msg);
+            }
+        }
+
+        return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
+    }
+
 }

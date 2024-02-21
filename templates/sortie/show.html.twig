@@ -33,8 +33,17 @@
         </tr>
         <tr>
             <th>Action</th>
-            <td><a class="btn btn-primary btn-sm" href="{{ path('app_sortie_suscribe', {'id': sortie.id}) }}">S'inscrire
-                    à l'évènement</a></td>
+            <td>
+                {% if app.user in sortie.inscrits %}
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_unsubscribe', {'id': sortie.id}) }}">Se
+                        désincrire
+                        de l'évènement</a>
+                {% else %}
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_suscribe', {'id': sortie.id}) }}">S'inscrire
+                        à l'évènement</a>
+                {% endif %}
+
+            </td>
         </tr>
         </tbody>
         <tr>
