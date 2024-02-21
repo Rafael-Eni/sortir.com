@@ -32,13 +32,9 @@ class SortieController extends AbstractController
             $data = $form->getData();
 
             $sorties = $sortieRepository->findByFilters($data);
-
         } else {
-
             $sorties = $sortieRepository->findAllStartingWithinMonth();
-
         }
-
 
         return $this->render('sortie/index.html.twig', [
             'searchForm' => $form,
