@@ -28,9 +28,13 @@ class ProfilController extends AbstractController
     }
 
     #[Route('/update/profil/{id}', name: 'app_update_profil')]
-    public function updateProfil(int $id, ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function updateProfil(Participant $user, ParticipantRepository $participantRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        $user = $participantRepository->find($id);
+
+        if($user !== $this->getUser()) {
+            return $this->redirectToRoute('app_profil', ['id' => $user->getId()]);
+        }
+
         $form = $this->createForm(ProfilType::class, $user);
         $form->handleRequest($request);
 
@@ -57,6 +61,10 @@ class ProfilController extends AbstractController
     #[Route('/delete/profil/{id}', name: 'app_delete_profil', requirements: ['id' => '\d+'])]
     public function deleteUser(Participant $participant, EntityManagerInterface $em): Response
     {
+        if($participant !== $this->getUser()) {
+            return $this->redirectToRoute('app_profil', ['id' => $participant->getId()]);
+        }
+
         $em->remove($participant);
         $em->flush();
 
