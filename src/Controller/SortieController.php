@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Site;
 use App\Entity\Sortie;
+use App\Form\SearchFormType;
 use App\Form\SortieType;
+use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,16 +18,34 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/sortie')]
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'app_sortie_index', methods: ['GET'])]
-    public function index(SortieRepository $sortieRepository): Response
+    #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
+    public function index(SortieRepository $sortieRepository, SiteRepository $siteRepository, Request $request): Response
     {
+
+        $form = $this->createForm(SearchFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = $form->getData();
+
+            $sorties = $sortieRepository->findByFilters($data);
+
+        } else {
+
+            $sorties = $sortieRepository->findAllStartingWithinMonth();
+
+        }
+
+
         return $this->render('sortie/index.html.twig', [
-            'sorties' => $sortieRepository->findAll(),
+            'searchForm' => $form,
+            'sorties' => $sorties,
         ]);
     }
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SortieRepository $sortieRepository): Response
     {
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
@@ -78,4 +100,6 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 }
