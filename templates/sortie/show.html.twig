@@ -50,7 +50,7 @@
             <th>Participant</th>
             <td>
                 {% for participant in sortie.inscrits %}
-                    <p>{{ participant.nom }} {{ participant.prenom }}</p>
+                    <a href="{{ path('app_profil', {'id': participant.id}) }}">{{ participant.nom }} {{ participant.prenom }}</a>
                 {% endfor %}
             </td>
         </tr>
