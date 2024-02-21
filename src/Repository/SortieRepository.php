@@ -62,5 +62,18 @@ class SortieRepository extends ServiceEntityRepository
         }
         return $qb->getQuery()->getResult();
     }
+
+    public function findAllStartingWithinMonth(): array
+
+    {
+        $dateLimite = new \DateTime();
+        $dateLimite->modify('-1 month');
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.dateHeureDebut >= :dateLimite')
+            ->setParameter('dateLimite', $dateLimite)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
 

@@ -22,7 +22,6 @@ class SortieController extends AbstractController
     public function index(SortieRepository $sortieRepository, SiteRepository $siteRepository, Request $request): Response
     {
 
-
         $form = $this->createForm(SearchFormType::class);
         $form->handleRequest($request);
 
@@ -34,15 +33,14 @@ class SortieController extends AbstractController
 
         } else {
 
-            $sorties = $sortieRepository->findAll();
+            $sorties = $sortieRepository->findAllStartingWithinMonth();
 
         }
 
 
-
         return $this->render('sortie/index.html.twig', [
             'searchForm' => $form,
-            'sorties' => $sorties
+            'sorties' => $sorties,
         ]);
     }
 
