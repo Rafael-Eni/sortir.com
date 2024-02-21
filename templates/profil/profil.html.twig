@@ -21,10 +21,12 @@
                                  class="rounded-circle img-fluid" style="width: 150px;">
                         {% endif %}
                         <h5 class="my-3">{{ user.pseudo }}</h5>
-                        <a class=" btn buttonDetail "
-                           href="{{ path('app_update_profil', {'id': user.id}) }}">Modifier</a>
-                        <a class=" btn buttonDetail "
-                           href="{{ path('app_delete_profil', {'id': user.id}) }}">Supprimer</a>
+                        {% if app.user.id == user.id %}
+                            <a class=" btn buttonDetail "
+                               href="{{ path('app_update_profil', {'id': user.id}) }}">Modifier</a>
+                            <a class=" btn buttonDetail "
+                               href="{{ path('app_delete_profil', {'id': user.id}) }}">Supprimer</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
