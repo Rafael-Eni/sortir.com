@@ -24,20 +24,20 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findByFilters(array $filters = []): array
     {
-        $qb = $this->createQueryBuilder('s');
+        $qb = $this->createQueryBuilder('s')
+            ->leftJoin('s.inscrits', 'inscrits')
+            ->leftJoin('s.organisateur', 'organisateur');
 
         if (!empty($filters['organisateur'])) {
             $qb->andWhere('s.organisateur = :organisateur')
                 ->setParameter('organisateur', $filters['organisateur']);
         }
         if (!empty($filters['participant'])) {
-            $qb->leftJoin('s.inscrits', 'inscrits')
-                ->andWhere('inscrits = :participant')
+            $qb->andWhere('inscrits = :participant')
                 ->setParameter('participant', $filters['participant']);
         }
         if (!empty($filters['nonParticipant'])) {
-            $qb->leftJoin('s.inscrits', 'inscrits')
-                ->andWhere('inscrits != :non_participant')
+            $qb->andWhere('inscrits != :non_participant')
                 ->setParameter('non_participant', $filters['nonParticipant']);
         }
         if (!empty($filters['finished'])) {
