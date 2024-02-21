@@ -7,40 +7,64 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ sortie.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ sortie.nom }}</td>
-            </tr>
-            <tr>
-                <th>DateHeureDebut</th>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Duree</th>
-                <td>{{ sortie.duree }}</td>
-            </tr>
-            <tr>
-                <th>DateLimiteInscription</th>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>NbInscriptionMax</th>
-                <td>{{ sortie.nbInscriptionMax }}</td>
-            </tr>
-            <tr>
-                <th>InfosSortie</th>
-                <td>{{ sortie.infosSortie }}</td>
-            </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ sortie.nom }}</td>
+        </tr>
+        <tr>
+            <th>DateHeureDebut</th>
+            <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Duree</th>
+            <td>{{ sortie.duree }}</td>
+        </tr>
+        <tr>
+            <th>DateLimiteInscription</th>
+            <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>NbInscriptionMax</th>
+            <td>{{ sortie.nbInscriptionMax }}</td>
+        </tr>
+        <tr>
+            <th>InfosSortie</th>
+            <td>{{ sortie.infosSortie }}</td>
+        </tr>
+        <tr>
+            <th>Action</th>
+            <td>
+                {% if app.user in sortie.inscrits %}
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_unsubscribe', {'id': sortie.id}) }}">Se
+                        désincrire
+                        de l'évènement</a>
+                {% else %}
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_suscribe', {'id': sortie.id}) }}">S'inscrire
+                        à l'évènement</a>
+                {% endif %}
+
+            </td>
+        </tr>
         </tbody>
+        <tr>
+            <th>Participant</th>
+            <td>
+                {% for participant in sortie.inscrits %}
+                    <p>{{ participant.nom }} {{ participant.prenom }}</p>
+                {% endfor %}
+            </td>
+        </tr>
+
+        </tr>
+
     </table>
 
     <a href="{{ path('app_sortie_index') }}">back to list</a>
 
-    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
-
-    {{ include('sortie/_delete_form.html.twig') }}
+    {% if app.user.email == sortie.organisateur.email %}
+        {% if not sortie.isPublished %}
+            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+        {% endif %}
+        {{ include('sortie/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

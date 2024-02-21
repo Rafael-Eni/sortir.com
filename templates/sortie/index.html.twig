@@ -34,7 +34,11 @@
                 <td>{{ sortie.infosSortie }}</td>
                 <td>
                     <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">show</a>
-                    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+                    {% if app.user.email == sortie.organisateur.email %}
+                        {% if not sortie.isPublished %}
+                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+                        {% endif %}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
