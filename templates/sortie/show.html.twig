@@ -34,13 +34,17 @@
         <tr>
             <th>Action</th>
             <td>
-                {% if app.user in sortie.inscrits %}
+                {% if app.user in sortie.inscrits and app.user != sortie.organisateur %}
                     <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_unsubscribe', {'id': sortie.id}) }}">Se
                         désincrire
                         de l'évènement</a>
-                {% else %}
+                {% elseif app.user != sortie.organisateur %}
                     <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_suscribe', {'id': sortie.id}) }}">S'inscrire
                         à l'évènement</a>
+                {% endif %}
+                {% if app.user == sortie.organisateur %}
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">Annuler
+                        l'évènement</a>
                 {% endif %}
 
             </td>
@@ -64,7 +68,8 @@
     {% if app.user.email == sortie.organisateur.email %}
         {% if not sortie.isPublished %}
             <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+            {{ include('sortie/_delete_form.html.twig') }}
         {% endif %}
-        {{ include('sortie/_delete_form.html.twig') }}
+
     {% endif %}
 {% endblock %}
