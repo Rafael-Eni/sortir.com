@@ -1,42 +1,44 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Sortie index{% endblock %}
-
 {% block body %}
     <h1>Sortie index</h1>
-
     <h2>Filtrer les sorties</h2>
-
     {{ form(searchForm) }}
-
     <table class="table">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Nom</th>
-            <th>DateHeureDebut</th>
-            <th>Duree</th>
-            <th>DateLimiteInscription</th>
-            <th>NbInscriptionMax</th>
-            <th>InfosSortie</th>
-            <th>actions</th>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>Inscrits / Places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for sortie in sorties %}
             <tr>
-                <td>{{ sortie.id }}</td>
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y - H:i') : '' }}</td>
-                <td>{{ sortie.duree }}</td>
                 <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d') : '' }}</td>
-                <td>{{ sortie.nbInscriptionMax }}</td>
-                <td>{{ sortie.infosSortie }}</td>
+                <td>{{ sortie.inscrits | length }} / {{ sortie.nbInscriptionMax }}</td>
+                <td>{{ sortie.etat.libelle }}</td>
+                    {% if app.user in sortie.inscrits %}
+                        <td>x</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                <td>{{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom }}</td>
                 <td>
-                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">show</a>
+                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">Détails</a>
                     {% if app.user.email == sortie.organisateur.email %}
                         {% if not sortie.isPublished %}
-                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier</a>
+                        {% endif %}
+                        {% if sortie.dateHeureDebut > 'now'|date('U') and sortie.etat.libelle != 'Annulée' %}
+                            <a href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">Annuler</a>
                         {% endif %}
                     {% endif %}
                 </td>
@@ -48,6 +50,5 @@
         {% endfor %}
         </tbody>
     </table>
-
     <a href="{{ path('app_sortie_new') }}">Create new</a>
 {% endblock %}
