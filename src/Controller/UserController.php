@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\UserType;
+use App\Helper\MailSender;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,6 +53,29 @@ class UserController extends AbstractController
             $participant->setActif(true);
         }
         $entityManager->flush();
+        return $this->redirectToRoute('app_list_user');
+    }
+    #[Route('/user/delete/{id}', name: 'app_delete_user', requirements: ['id' => '\d+'])]
+    public function deleteUser(Participant $participant, EntityManagerInterface $em, MailSender $mailSender): Response
+    {
+        $sorties = $participant->getSorties();
+        if ($sorties->count()>0){
+            foreach ($sorties as $sortie){
+                $em->remove($sortie);
+                $subjectParticipant = 'Sortie annulée';
+                $textParticipant = "La sortie '" . $sortie->getNom() . "' prévue le " . $sortie->getDateHeureDebut()->format('Y-m-d H:i:s') . " a été annulée pour les raisons suivantes : \n" ."l'utilisateur a supprimé son compte";
+                foreach ($sortie->getInscrits() as $inscrit) {
+                    $mailSender->sendEmail($subjectParticipant, $textParticipant, $inscrit->getEmail());
+                }
+            }
+        }
+        $subjectOrganisateur = 'Compte supprimé';
+        $textOrganisateur = "Ton compte a été supprimé, contacte un admin pour avoir plus de renseignement.";
+        $mailSender->sendEmail($subjectOrganisateur, $textOrganisateur, $participant->getEmail());
+
+        $em->remove($participant);
+        $em->flush();
+
         return $this->redirectToRoute('app_list_user');
     }
 }
