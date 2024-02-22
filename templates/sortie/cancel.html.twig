@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sortie{% endblock %}
+
+{% block body %}
+    <h1>Sortie</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Nom</th>
+            <td>{{ sortie.nom }}</td>
+        </tr>
+        <tr>
+            <th>DateHeureDebut</th>
+            <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Ville organisatrice</th>
+            <td>{{ sortie.site.nom | upper }}</td>
+        </tr>
+        <tr>
+            <th>Lieu</th>
+            <td>{{ sortie.lieu.rue ~ ' ' ~ sortie.lieu.ville.codePostal ~ ' ' ~ sortie.lieu.ville.nom }}</td>
+        </tr>
+        <tr>
+            <th>Motif :</th>
+            <td>
+                {{ form(form) }}
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <a href="{{ path('app_sortie_index') }}">back to list</a>
+
+    {% if app.user.email == sortie.organisateur.email %}
+        {% if not sortie.isPublished %}
+            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}
