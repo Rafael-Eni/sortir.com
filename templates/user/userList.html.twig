@@ -14,7 +14,7 @@
                     <div><a class=" btn buttonDetail " href="{{ path('app_detail_user', {'id': user.id}) }}">Détail</a>
                         <a class=" btn buttonDetail "
                            href="{{ path('app_desactivate_user', {'id': user.id}) }}">{{ user.actif ? "Desactiver" : "Activer" }}</a>
-                        <a class=" btn buttonDetail " href="{{ path('app_main', {'id': user.id}) }}">Supprimer</a>
+                        <a class=" btn buttonDetail " href="{{ path('app_delete_user', {'id': user.id}) }}">Supprimer</a>
                     </div>
                 </li>
             </ul>
