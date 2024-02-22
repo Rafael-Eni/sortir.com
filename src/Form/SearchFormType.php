@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Site;
+use App\Repository\ParticipantRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,8 +21,23 @@ use function Sodium\add;
 class SearchFormType extends AbstractType
 {
 
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
+        $user = $this->security->getUser()->getSexe();
+
+        $libelleOrganisateur = $user === 'femme' ? 'Sorties dont je suis l\'organisatrice' : 'Sorties dont je suis l\'organisateur';
+        $libelleParticipant = $user === 'femme' ? 'Sorties auxquelles je suis inscrite' : 'Sorties auxquelles je suis inscrit';
+        $libelleNonParticipant = $user === 'femme' ? 'Sorties auxquelles je ne suis pas inscrite' : 'Sorties auxquelles je ne suis pas inscrit';
+
+
         $builder
             ->add('site', EntityType::class, [
                 'required' => false,
@@ -28,38 +45,62 @@ class SearchFormType extends AbstractType
                 'class' => Site::class,
                 'choice_label' => 'nom',
                 'placeholder' => '----- Choisir un site -----',
+                'row_attr' => [
+                    'class' => 'wave-group bar width'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'attr' => [
+                    'class' => 'input'
+                ]
             ])
             ->add('search', SearchType::class, [
-                'label' => 'Rechercher',
-                'required' => false
+                'required' => false,
+                'label' => 'Rechercher par mot clé',
+                'row_attr' => [
+                    'class' => 'wave-group bar width'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'attr' => [
+                    'placeholder' => 'Recherche',
+                    'class' => 'input'
+                ]
             ])
             ->add('dateDebut', DateType::class, [
-                'label' => 'Entre',
+                'label' => 'Entre le',
                 'required' => false,
-                'attr' => ['min' => (new \DateTime())->format('Y-m-d')]
+                'attr' => [
+                    'min' => (new \DateTime())->format('Y-m-d'),
+                    'class' => 'input'
+                    ],
+                'row_attr' => [
+                    'class' => 'wave-group bar width'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
             ])
             ->add('dateFin', DateType::class, [
-                'label' => 'et',
+                'label' => 'et le',
                 'required' => false,
-                'attr' => ['min' => (new \DateTime())->format('Y-m-d')]
+                'attr' => [
+                    'min' => (new \DateTime())->format('Y-m-d'),
+                    'class' => 'input'
+                ],
+                'row_attr' => [
+                    'class' => 'wave-group bar width'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
             ])
             ->add('organisateur', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Sorties dont je suis l\'organisateur.rice'
+                'label' => $libelleOrganisateur
             ])
             ->add('participant', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Sorties auxquelles je suis inscrit.es'
+                'label' => $libelleParticipant
             ])
             ->add('nonParticipant', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Sorties auxquelles je ne suis pas inscrit.es'
+                'label' => $libelleNonParticipant
             ])
             ->add('finished', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Sorties passées'
             ])
-            ->add('submit', SubmitType::class);
         ;
     }
 

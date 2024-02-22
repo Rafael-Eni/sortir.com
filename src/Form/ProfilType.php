@@ -16,30 +16,91 @@ class ProfilType extends AbstractType
     {
         $builder
             ->add('email',TextType::class,[
-                'label' => 'Email :',
+                'label' => false,
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'E-mail',
+                    'class' => 'input'
+                ]
             ])
             ->add('nom',TextType::class,[
-                'label' => 'Nom :',
+                'label' => false,
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Nom',
+                    'class' => 'input'
+                ]
             ])
             ->add('prenom',TextType::class,[
-                'label' => 'Prenom :',
+                'label' => false,
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Prénom',
+                    'class' => 'input'
+                ]
             ])
             ->add('pseudo',TextType::class,[
-                'label' => 'Pseudo :',
+                'label' => false,
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Pseudo',
+                    'class' => 'input'
+                ]
             ])
             ->add('sexe',TextType::class,[
-                'label' => 'Sexe :',
+                'label' => false,
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Sexe',
+                    'class' => 'input'
+                ]
             ])
             ->add('telephone',TextType::class,[
-                'label' => 'Telephone :',
+                'label' => false,
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Téléphone',
+                    'class' => 'input'
+                ]
             ])
             ->add('poster_file', FileType::class, [
+                'label' => false,
                 'required' => false,
                 'mapped'=> false,
                 'constraints'=> [

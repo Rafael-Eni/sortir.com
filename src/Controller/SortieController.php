@@ -6,6 +6,7 @@ use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\SearchFormType;
 use App\Form\SortieType;
+use App\Repository\ParticipantRepository;
 use App\Repository\SiteRepository;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
@@ -21,11 +22,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
-    public function index(SortieRepository $sortieRepository, SiteRepository $siteRepository, Request $request): Response
+    public function index(SortieRepository $sortieRepository, Request $request): Response
     {
 
         $form = $this->createForm(SearchFormType::class);
         $form->handleRequest($request);
+
+        $sortieParticipant = $sortieRepository->findAll();
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
