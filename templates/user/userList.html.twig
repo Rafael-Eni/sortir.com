@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}Liste utilisateurs!{% endblock %}
+{% block body %}
+
+    <div class="d-flex justify-content-center flex-column card container p-3 shadow-sm my-5 fond"
+         style="max-width: 800px;">
+        <h1 class="d-flex justify-content-center my-3">Liste Utilisateur :</h1>
+        <h2>Filtrer les utilisateurs</h2>
+        {{ form(userForm) }}
+        {% for user in user %}
+            <ul class="list-group text-center">
+                <li class="list-group-item text-center d-flex justify-content-between align-items-center couleurTableau bordure mb-2">
+                    <div>- {{ user.nom }} {{ user.prenom }}</div>
+                    <div><a class=" btn buttonDetail " href="{{ path('app_detail_user', {'id': user.id}) }}">Détail</a>
+                        <a class=" btn buttonDetail "
+                           href="{{ path('app_desactivate_user', {'id': user.id}) }}">{{ user.actif ? "Desactiver" : "Activer" }}</a>
+                        <a class=" btn buttonDetail " href="{{ path('app_main', {'id': user.id}) }}">Supprimer</a>
+                    </div>
+                </li>
+            </ul>
+        {% endfor %}
+    </div>
+{% endblock %}
