@@ -34,19 +34,19 @@
         <tr>
             <th>Action</th>
             <td>
-                {% if app.user in sortie.inscrits and app.user != sortie.organisateur %}
-                    <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_unsubscribe', {'id': sortie.id}) }}">Se
-                        désincrire
-                        de l'évènement</a>
-                {% elseif app.user != sortie.organisateur %}
-                    <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_suscribe', {'id': sortie.id}) }}">S'inscrire
-                        à l'évènement</a>
+                {% if sortie.etat.libelle == 'Ouverte' %}
+                    {% if app.user in sortie.inscrits and app.user != sortie.organisateur %}
+                        <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_unsubscribe', {'id': sortie.id}) }}">Se
+                            désincrire de l'évènement</a>
+                    {% elseif app.user != sortie.organisateur %}
+                        <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_suscribe', {'id': sortie.id}) }}">S'inscrire
+                            à l'évènement</a>
+                    {% endif %}
+                    {% if app.user == sortie.organisateur %}
+                        <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">Annuler
+                            l'évènement</a>
+                    {% endif %}
                 {% endif %}
-                {% if app.user == sortie.organisateur %}
-                    <a class="btn btn-primary btn-sm" href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">Annuler
-                        l'évènement</a>
-                {% endif %}
-
             </td>
         </tr>
         </tbody>

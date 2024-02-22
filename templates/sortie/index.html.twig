@@ -37,7 +37,7 @@
                         {% if not sortie.isPublished %}
                             <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">Modifier</a>
                         {% endif %}
-                        {% if sortie.dateHeureDebut > 'now'|date('U') and sortie.etat.libelle == 'Ouvert' %}
+                        {% if sortie.dateHeureDebut > 'now'|date('U') and sortie.etat.libelle == 'Ouverte' %}
                             <a href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">Annuler</a>
                         {% endif %}
                     {% endif %}
