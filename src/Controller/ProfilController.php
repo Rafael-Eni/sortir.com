@@ -61,13 +61,13 @@ class ProfilController extends AbstractController
     #[Route('/delete/profil/{id}', name: 'app_delete_profil', requirements: ['id' => '\d+'])]
     public function deleteUser(Participant $participant, EntityManagerInterface $em): Response
     {
-        if($participant !== $this->getUser()) {
+        if($participant->getEmail() !== $this->getUser()->getUserIdentifier()) {
             return $this->redirectToRoute('app_profil', ['id' => $participant->getId()]);
         }
 
         $em->remove($participant);
         $em->flush();
 
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('app_logout');
     }
 }

@@ -40,6 +40,28 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $this->getEntityManager()->flush();
     }
 
+    public function findUserByFilters(array $filters = []): array
+    {
+        $qb = $this->createQueryBuilder('s');
+
+        if (!empty($filters['actif'])) {
+            $qb->andWhere('s.actif = :actif')
+                ->setParameter('actif', $filters['actif']);
+        }
+        if (!empty($filters['desactiver'])) {
+            $qb->andWhere('s.actif = :desactiver')
+                ->setParameter('desactiver', !$filters['desactiver']);
+        }
+        if (!empty($filters['search'])) {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('s.nom', ':search'),
+                $qb->expr()->like('s.prenom', ':search')
+            ))
+                ->setParameter('search', '%' . $filters['search'] . '%');
+        }
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Participant[] Returns an array of Participant objects
 //     */
