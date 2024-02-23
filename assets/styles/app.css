@@ -134,11 +134,18 @@ button:hover {
     width: 200px;
 }
 
+.h1-main {
+    font-family: 'DM Serif Display', serif;
+    color: #399D7B;
+    font-weight: 600;
+    text-align: left;
+}
 
 h1  {
     font-family: 'DM Serif Display', serif;
     color: #399D7B;
     font-weight: 600;
+    text-align: center;
 }
 
 form h1 {
@@ -153,6 +160,7 @@ p {
 .grid {
     display: grid;
     grid-template-columns: 50% 50%;
+    gap: 20px;
     align-items: center;
 }
 
@@ -226,7 +234,9 @@ nav li a {
 }
 
 .search-form {
-    width: 90%;
+    width: 100%;
+    border: 2px solid #399D7B;
+    padding: 20px;
 }
 
 .search-button {
@@ -236,6 +246,13 @@ nav li a {
     padding: 10px;
     background-color: white;
     font-weight: bold;
+}
+
+.search-button:hover {
+    background-color: #399D7B;
+    color: white;
+    transition: .2s;
+    opacity: 100%;
 }
 
 .center {
@@ -283,6 +300,10 @@ h3 {
     font-family: 'Montserrat', sans-serif;
 }
 
+.h4-black {
+    color: #399D7B;
+    font-family: 'DM Serif Display', serif;
+}
 
 .img img {
     width: 100%;
@@ -293,13 +314,94 @@ h3 {
     color: black;
 }
 
+.flex-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #399D7B;
+}
+
+.flex-a {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+}
+
+.align-left {
+    text-align: left;
+}
+
+footer a {
+    text-decoration: none;
+    color: #399D7B;
+}
+
+@media screen and (max-width: 1240px) {
+
+    .d-flex {
+        display: flex!important;
+        flex-direction: column;
+    }
+
+    .button-profil-background {
+        margin: 5px;
+    }
+
+    .button-profil {
+        margin: 5px;
+    }
+
+    .mb-0 {
+        margin: 10px;
+    }
+
+}
 
 @media screen and (max-width: 1000px) {
+
+    .grid {
+        display: block;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .flex {
         display: block;
+        text-align: center;
     }
 
     p {
         margin-bottom: 80px;
     }
+
+    .search-form {
+        text-align: center;
+    }
+
+    .nav-link {
+        margin: 0;
+        padding: 10px;
+    }
+
+    .button-background {
+        background-color: transparent;
+        color: #399D7B;
+        font-weight: 600;
+        border: none;
+    }
+
+    .navbar-toggler {
+        margin: 20px;
+    }
+
+    .flex-a {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
 }

@@ -1,3 +1,10 @@
-<footer class="footer d-flex align-items-center justify-content-center p-4">
-    <p>&copy; Copyright {{ "now"|date("Y") }} EniSorties</p>
+<footer class="footer d-flex align-items-center justify-content-center p-3">
+    <div class="flex-footer">
+        <a><b>&copy; Copyright {{ "now"|date("Y") }} EniSorties</b></a>
+        <div class="flex-a">
+            <a href="" style="font-weight: 600">Contactez-nous</a>
+            <a href="{{ path('app_mentions') }}" style="font-weight: 600">Mentions légales</a>
+            <a href="{{ path('app_politique') }}" style="font-weight: 600">Politique de confidentialité</a>
+        </div>
+    </div>
 </footer>

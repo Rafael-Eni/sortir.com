@@ -3,10 +3,9 @@
 {% block title %}Sortie index{% endblock %}
 
 {% block body %}
-    <h1>Rechercher une sortie spécifique</h1>
-
 
     <div class="search-form">
+        <h1>Rechercher une sortie spécifique</h1>
         {{ form_start(searchForm) }}
         <div class="flex">
             {{ form_row(searchForm.site) }}
@@ -16,20 +15,20 @@
         </div>
         <div class="flex">
             <div class="gap">
-                {{ form_label(searchForm.organisateur) }}
                 {{ form_widget(searchForm.organisateur) }}
+                {{ form_label(searchForm.organisateur) }}
             </div>
             <div class="gap">
-                {{ form_label(searchForm.participant) }}
                 {{ form_widget(searchForm.participant) }}
+                {{ form_label(searchForm.participant) }}
             </div>
             <div class="gap">
-                {{ form_label(searchForm.nonParticipant) }}
                 {{ form_widget(searchForm.nonParticipant) }}
+                {{ form_label(searchForm.nonParticipant) }}
             </div>
             <div class="gap">
-                {{ form_label(searchForm.finished) }}
                 {{ form_widget(searchForm.finished) }}
+                {{ form_label(searchForm.finished) }}
             </div>
         </div>
         <div class="center">
