@@ -8,8 +8,22 @@
     {% endfor %}
 
     <h1>Inscription</h1>
+    <div class="padding"></div>
 
+    {{ form_start(registrationForm) }}
         {{ form(registrationForm) }}
+    <div class="button">
+        <div class="padding"></div>
+        <button type="submit">
+            S'inscrire
+        </button>
+        <div class="padding"></div>
+        <div class="forget-password">
+            <p>Déjà membre ? <a href="{{ path('app_login') }}"><b>Se connecter</b></a></p>
+        </div>
+    </div>
+    {{ form_end(registrationForm) }}
 
-    <p>Déjà membre ? <a href="{{ path('app_login') }}">Se connecter.</a></p>
+    <div class="padding"></div>
+    <div class="padding"></div>
 {% endblock %}

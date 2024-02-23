@@ -8,6 +8,7 @@ use App\Form\CancelType;
 use App\Form\SearchFormType;
 use App\Form\SortieType;
 use App\Helper\MailSender;
+use App\Repository\ParticipantRepository;
 use App\Repository\SiteRepository;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;

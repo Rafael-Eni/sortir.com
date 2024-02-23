@@ -24,28 +24,48 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('pseudo', TextType::class, [
                 'required' => false,
-                'label' => 'Pseudo',
+                'label' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Merci de renseigner votre pseudo',
                     ])
+                ],
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Pseudo',
+                    'class' => 'input'
                 ]
             ])
             ->add('email', TextType::class, [
-                'label' => 'E-mail',
+                'label' => false,
                 'required' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Merci de renseigner votre e-mail',
                     ]),
                 ],
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'E-mail',
+                    'class' => 'input'
+                ]
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
                 'required' => false,
-                'label' => 'Mot de passe',
+                'label' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
@@ -58,28 +78,59 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Mot de passe',
+                    'class' => 'input'
+                ]
             ])
             ->add('nom', TextType::class, [
                 'required' => false,
-                'label' => 'Nom',
+                'label' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Merci de renseigner votre nom',
                     ])
+                ],
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Nom',
+                    'class' => 'input'
                 ]
             ])
             ->add('prenom', TextType::class, [
                 'required' => false,
-                'label' => 'Prénom',
+                'label' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Merci de renseigner votre prénom',
                     ])
+                ],
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Prénom',
+                    'class' => 'input'
                 ]
             ])
             ->add('sexe', ChoiceType::class, [
                 'required' => false,
-                'label' => 'Sexe',
+                'label' => false,
+                'placeholder' => 'Sexe',
                 'choices' => [
                     'Feminim' => 'femme',
                     'Masculin' => 'homme'
@@ -88,15 +139,31 @@ class RegistrationFormType extends AbstractType
                     new NotBlank([
                         'message' => 'Merci de renseigner votre sexe',
                     ])
+                ],
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'class' => 'input'
                 ]
             ])
             ->add('telephone', TextType::class, [
                 'required' => false,
-                'label' => 'Téléphone',
+                'label' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Merci de renseigner votre numéro de téléphone',
                     ]),
+                ],
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'attr' => [
+                    'placeholder' => 'Téléphone',
+                    'class' => 'input'
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
@@ -107,9 +174,11 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Vous devez accepter les termes et conditions',
                     ]),
                 ],
-                'label' => 'Accepter les termes & conditions'
-            ])
-            ->add('submit', SubmitType::class);
+                'label' => 'Accepter les termes & conditions',
+                'label_attr' => [
+                    'class' => 'termes'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

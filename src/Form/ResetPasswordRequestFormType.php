@@ -14,7 +14,15 @@ class ResetPasswordRequestFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'attr' => ['autocomplete' => 'email'],
+                'label' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'attr' => [
+                    'autocomplete' => 'email',
+                    'class' => 'input',
+                    'placeholder' => 'E-mail',
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter your email',

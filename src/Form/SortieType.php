@@ -12,6 +12,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,25 +24,106 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom de l\'activité',
+                'label' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Nom de l\'activité',
+                    'class' => 'input'
+                ]
             ])
-            ->add('dateHeureDebut')
-            ->add('duree')
-            ->add('dateLimiteInscription')
-            ->add('nbInscriptionMax', TextType::class, [
-                'label' => 'Nombre maximum de participant'
+            ->add('dateHeureDebut', DateType::class, [
+                'label' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Date de l\'activité',
+                    'class' => 'input'
+                ]
             ])
-            ->add('infosSortie', TextType::class, [
-                'label' => 'Description de la sortie'
+            ->add('duree', NumberType::class, [
+                'label' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Durée',
+                    'class' => 'input'
+                ]
+            ])
+            ->add('dateLimiteInscription', DateType::class, [
+                'label' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Date limite',
+                    'class' => 'input'
+                ]
+            ])
+            ->add('nbInscriptionMax', NumberType::class, [
+                'label' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Nombre max. de participants',
+                    'class' => 'input'
+                ]
+            ])
+            ->add('infosSortie', TextareaType::class, [
+                'label' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Description de la sortie',
+                    'class' => 'input'
+                ]
             ])
             ->add('lieu', LieuType::class, [
-                'label' => 'Lieu de l\'activité'
+                'label' => false,
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
             ])
             ->add('site', EntityType::class, [
-                'label' => 'Ecole de rattachement',
+                'label' => false,
                 'class' => Site::class,
+                'placeholder' => '----- Ecole de rattachement -----',
                 'choice_label' => 'nom',
-                'placeholder' => '----- Choisir un site -----',
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                            'label_attr' => [
+                    'class' => 'label'
+                ],
+                            'attr' => [
+                    'class' => 'input'
+                ]
             ])
             ->add('isPublished', CheckboxType::class, [
                 'label' => 'Publier l\'annonce',

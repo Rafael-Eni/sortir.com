@@ -12,11 +12,15 @@
         {{ form_row(requestForm.email) }}
         <div>
             <small>
-                Enter your email address, and we will send you a
-                link to reset your password.
+                Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser<br>votre mot de passe.
             </small>
         </div>
 
-        <button class="btn btn-primary">Send password reset email</button>
+    <div class="button">
+        <div class="padding"></div>
+        <button type="submit">
+            Restaurer le mot de passe
+        </button>
+    </div>
     {{ form_end(requestForm) }}
 {% endblock %}
