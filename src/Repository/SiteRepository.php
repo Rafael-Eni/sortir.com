@@ -20,7 +20,19 @@ class SiteRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Site::class);
     }
+    public function findCityByFilters(array $filters = []): array
+    {
+        $qb = $this->createQueryBuilder('s');
 
+        if (!empty($filters['search'])) {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('s.nom', ':search'),
+                $qb->expr()->like('s.prenom', ':search')
+            ))
+                ->setParameter('search', '%' . $filters['search'] . '%');
+        }
+        return $qb->getQuery()->getResult();
+    }
 //    /**
 //     * @return Site[] Returns an array of Site objects
 //     */
