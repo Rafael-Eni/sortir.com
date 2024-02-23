@@ -44,23 +44,30 @@
     <div class="margin"></div>
 
     <div class="button">
-        <a href="{{ path('app_sortie_new') }}"><button>Ajouter une sortie <i class="fa-solid fa-plus"></i></button></a>
+        <a href="{{ path('app_sortie_new') }}">
+            <button>Ajouter une sortie <i class="fa-solid fa-plus"></i></button>
+        </a>
     </div>
 
     <div class="padding"></div>
 
     <div class="container">
         {% for sortie in sorties %}
-            <div class="sortie">
-                <div class="inside">
-                    <h3>{{ sortie.nom }}</h3>
-                    <h4>le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
-                        - {{ sortie.duree }}h</h4>
-                    <h5>Date limite d'inscription: <br>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y') : '' }}</h5>
-                    <h5>Participants {{ sortie.inscrits | length }} / {{ sortie.nbInscriptionMax }}</h5>
-                    <p>Description de la sortie: <br>{{ sortie.infosSortie }}</p>
+
+            <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">
+                <div class="sortie">
+                    <div class="inside">
+                        <h3>{{ sortie.nom }}</h3>
+                        <p>le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
+                            - {{ sortie.duree }}</p>
+                        <p>Date limite
+                            d'inscription: {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y') : '' }}</p>
+                        <p>Participants :<br> {{ sortie.inscrits | length }} / {{ sortie.nbInscriptionMax }}</p>
+                        <p>Description de la sortie: <br>{{ sortie.infosSortie }}</p>
+                    </div>
                 </div>
-            </div>
+            </a>
+
 
         {% else %}
             <h3>Aucune sortie d'organisée</h3>
