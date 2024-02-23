@@ -86,7 +86,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci de renseigner votre nom',
+                        'message' => 'Merci de renseigner votre sexe',
                     ])
                 ]
             ])
