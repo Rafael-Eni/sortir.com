@@ -60,7 +60,7 @@
                         <h3>{{ sortie.nom }}</h3>
                         <p>le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
                             - {{ sortie.duree }}</p>
-                        <p>Date limite
+                        <p class="sortie-description">Date limite
                             d'inscription: {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y') : '' }}</p>
                         <p>Participants :<br> {{ sortie.inscrits | length }} / {{ sortie.nbInscriptionMax }}</p>
                         <p>Description de la sortie: <br>{{ sortie.infosSortie }}</p>

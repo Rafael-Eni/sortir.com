@@ -270,6 +270,7 @@ nav li a {
     width: 90%;
     display: grid;
     grid-template-columns: 32% 32% 32%;
+    gap: 20px;
     justify-content: space-between;
 }
 
@@ -307,6 +308,10 @@ h3 {
     color: black;
     font-family: 'Montserrat', sans-serif;
     margin: 0;
+}
+
+.sortie-description {
+    text-overflow: ellipsis;
 }
 
 .h4-black {
