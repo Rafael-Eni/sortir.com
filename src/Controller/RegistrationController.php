@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\RegistrationFormType;
+use App\Repository\ParticipantRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -26,13 +27,17 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
     {
         $user = new Participant();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+        $existingMailUser = $participantRepository->findOneBy(['email' => $user->getEmail()]);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($existingMailUser){
+                return $this->redirectToRoute('app_register');
+            }
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(

@@ -11,7 +11,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-#[UniqueEntity(fields: ['email', 'pseudo'], message: 'L\'email et le pseudo doivent etre unique')]
+#[UniqueEntity(fields: 'email', message: 'L\'email doit etre unique', errorPath : 'email')]
+#[UniqueEntity(fields: 'pseudo', message: 'Le pseudo doit etre unique', errorPath : 'pseudo')]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
