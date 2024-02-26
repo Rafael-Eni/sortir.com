@@ -8,6 +8,7 @@ use App\Form\SearchFormType;
 use App\Form\SortieType;
 use App\Helper\MailSender;
 use App\Repository\EtatRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
