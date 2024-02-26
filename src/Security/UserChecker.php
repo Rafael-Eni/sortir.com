@@ -21,6 +21,10 @@ class UserChecker implements UserCheckerInterface
             throw new CustomUserMessageAccountStatusException('Ton compte doit être validé par un admin');
         }
 
+        if (!$user->isVerified()) {
+            throw new CustomUserMessageAccountStatusException('Tu dois valider ton adresse mail avant de te connecter');
+        }
+
     }
 
     public function checkPostAuth(UserInterface $user): void
