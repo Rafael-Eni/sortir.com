@@ -31,10 +31,10 @@
                 {{ form_label(searchForm.finished) }}
             </div>
         </div>
+        <div class="padding"></div>
         <div class="center">
-            <div class="padding"></div>
             <button type="submit" class="search-button">
-                Rechercher
+                RECHERCHER
             </button>
         </div>
     </div>
@@ -45,51 +45,81 @@
     {% if not is_granted('ROLE_ADMIN') %}
         <div class="button">
             <a href="{{ path('app_sortie_new') }}">
-                <button>Ajouter une sortie <i class="fa-solid fa-plus"></i></button>
+                <button>AJOUTER UNE SORTIE <i class="fa-solid fa-plus"></i></button>
             </a>
         </div>
     {% endif %}
-    <div class="padding"></div>
+    <div class="margin"></div>
     <div class="container">
         {% if sorties is not null %}
 
             {% for sortie in sorties %}
 
-                <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">
-                    <div class="sortie">
-                        <div class="inside">
-                            <h3>{{ sortie.nom }}</h3>
-                            <p>le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
-                                - {{ sortie.duree }}</p>
-                            <p class="sortie-description">Date limite
-                                d'inscription: {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y') : '' }}</p>
-                            <p>Participants :<br> {{ sortie.inscrits | length }} / {{ sortie.nbInscriptionMax }}</p>
-                            <p>Description de la sortie: <br>{{ sortie.infosSortie }}</p>
+            <div class="sortie">
+                <div class="left-container-sortie">
+
+                    {% if app.user == sortie.organisateur %}
+                        <div class="flex-icon">
+                            <a href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">
+                                <i class="fa-regular fa-circle-xmark"></i>
+                            </a>
+
+                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
                         </div>
+                    {% endif %}
+
+                    <div class="padding"></div>
+                    <img src="{{ asset(profil_pic_dir ~ '/' ~  sortie.organisateur.posterFile) }}" alt="avatar1"
+                         class="rounded-circle img-fluid" style="width: 150px;">
+                    <div class="padding"></div>
+                    <h4>
+                        <a href="{{ path('app_profil', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</a>
+                    </h4>
+
+                    <div class="padding"></div>
+
+
+
+                </div>
+                <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">
+                    <div class="right-container">
+
+
+                        <h3>{{ sortie.nom }}</h3>
+                        <h5>le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
+                            - {{ sortie.duree }}</h5>
+                        <div class="little-padding"></div>
+                        <p><b>Participants :</b><br> {{ sortie.inscrits | length }} / {{ sortie.nbInscriptionMax }}</p>
+                        <div class="little-padding"></div>
+                        <p><b>Description de la sortie: </b><br>{{ sortie.infosSortie }}</p>
+
                     </div>
                 </a>
-                <td>
-                    <div class="flex">
-                        <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}"><i
-                                    class="fa-solid fa-magnifying-glass"></i></a>
-                        {% if app.user.email == sortie.organisateur.email %}
-                            {% if not sortie.isPublished %}
-                                <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}"><i
-                                            class="fa-solid fa-pencil"></i></a>
-                            {% endif %}
-                            <a href="{{ path('app_sortie_delete', {'id': sortie.id}) }}"><i
-                                        class="fa-solid fa-trash-can"></i></a>
-                        {% endif %}
-                    </div>
-                </td>
-            {% endfor %}
+            </div>
+
+
         {% else %}
             <h3>Aucune sortie d'organisée</h3>
-        {% endif %}
+
+            <td>
+                <div class="flex">
+                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}"><i
+                                class="fa-solid fa-magnifying-glass"></i></a>
+                    {% if app.user.email == sortie.organisateur.email %}
+                        {% if not sortie.isPublished %}
+                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}"><i
+                                        class="fa-solid fa-pencil"></i></a>
+                        {% endif %}
+                        <a href="{{ path('app_sortie_delete', {'id': sortie.id}) }}"><i
+                                    class="fa-solid fa-trash-can"></i></a>
+                    {% endif %}
+                </div>
+            </td>
+        {% endfor %}
 
     </div>
 
     <div class="margin"></div>
-
-
 {% endblock %}

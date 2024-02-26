@@ -15,18 +15,39 @@ class UserType extends AbstractType
     {
         $builder
             ->add('search', SearchType::class, [
-                'label' => 'Rechercher',
-                'required' => false
+                'label' => false,
+                'required' => false,
+                'label_attr' => [
+                    'class' => 'termes'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'attr' => [
+                    'class' => 'input',
+                    'placeholder' => 'Recherche'
+                ]
             ])
             ->add('actif', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Utilisateur actif'
+                'label' => 'Utilisateur actif',
+                'label_attr' => [
+                    'class' => 'termes'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
             ])
             ->add('desactiver', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Utilisateur desactiver'
-            ])
-            ->add('submit', SubmitType::class);
+                'label' => 'Utilisateur desactivé',
+                'label_attr' => [
+                    'class' => 'termes'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
