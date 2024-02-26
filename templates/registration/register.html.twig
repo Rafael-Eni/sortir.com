@@ -11,12 +11,10 @@
     <div class="padding"></div>
 
     {{ form_start(registrationForm) }}
-        {{ form(registrationForm) }}
+        {{ form_rest(registrationForm) }}
     <div class="button">
         <div class="padding"></div>
-        <button type="submit">
-            S'inscrire
-        </button>
+        <button type="submit">S'inscrire</button>
         <div class="padding"></div>
         <div class="forget-password">
             <p>Déjà membre ? <a href="{{ path('app_login') }}"><b>Se connecter</b></a></p>

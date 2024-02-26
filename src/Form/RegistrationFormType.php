@@ -178,6 +178,9 @@ class RegistrationFormType extends AbstractType
                 'label_attr' => [
                     'class' => 'termes'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
                 ],
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
             ]);
     }
 

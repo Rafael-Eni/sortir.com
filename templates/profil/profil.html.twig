@@ -32,8 +32,8 @@
                                     <a href="{{ path('app_update_profil', {'id': user.id}) }}"><button class="button-profil-background">Modifier</button></a>
                                     <a href="{{ path('app_delete_profil', {'id': user.id}) }}"><button class="button-profil">Supprimer</button></a>
                                 {% else %}
-                                <button type="button" class="btn btn-primary">Follow</button>
-                                <button type="button" class="btn btn-outline-primary ms-1">Message</button>
+                                <button type="button" class="button-profil-background">Follow</button>
+                                <button type="button" class="button-profil">Message</button>
                                 {% endif %}
                             </div>
                         </div>

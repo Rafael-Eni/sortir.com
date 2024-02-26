@@ -102,6 +102,20 @@ body {
     text-align: center;
 }
 
+.wave-group ul {
+    padding: 0;
+}
+
+.wave-group ul li {
+    text-decoration: none;
+    color: red;
+    list-style: none;
+    padding: 10px;
+    border: 1px solid red;
+    text-align: center;
+    border-radius: 5px;
+}
+
 .termes {
     font-family: 'Montserrat', sans-serif;
     font-size: 0.85em;
@@ -126,12 +140,21 @@ button:hover {
     opacity: 80%;
 }
 
+.little-padding {
+    padding: 5px;
+}
+
 .padding {
     padding: 10px;
 }
 
 .width {
     width: 200px;
+}
+
+.width-100 {
+    width: 100%;
+    text-align: center;
 }
 
 .h1-main {
@@ -162,6 +185,32 @@ p {
     grid-template-columns: 50% 50%;
     gap: 20px;
     align-items: center;
+}
+
+.grid-users {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 32% 32% 32%;
+    gap: 20px;
+    align-items: center;
+}
+
+.bg-blue {
+    border: 2px solid #399D7B;
+    padding: 15px;
+}
+
+.user {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #399D7B;
+}
+
+.button-i {
+    color: #399D7B;
+    background-color: transparent;
+    border: none;
 }
 
 .flex {
@@ -241,6 +290,20 @@ nav li a {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
+.search-form-users {
+    width: 100%;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.flex-users {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .search-button {
     border-radius: 30px;
     border: 2px solid #399D7B;
@@ -258,6 +321,18 @@ nav li a {
 
 .center {
     text-align: center;
+}
+
+#user {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 60px;
+}
+
+.center-flex {
+    display: flex;
+    justify-content: center;
 }
 
 .gap {
@@ -282,15 +357,99 @@ nav li a {
     height: 300px;
     background-color: #f5f5f5;
     border-radius: 5px;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 10px;
+    align-items: center;
+}
+
+.sortie-detail {
+    background-color: #f5f5f5;
+    padding: 30px;
+    min-height: 500px;
+    width: 70%;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.ajout-ville {
+    background-color: #f5f5f5;
+    padding: 30px;
+    min-height: 300px;
+    width: 80%;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-container {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.left-container-sortie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.flex-icon {
+    display: flex;
+    width: 70%;
+    justify-content: space-evenly;
+}
+
+.right-container h5 {
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: black;
+}
+
+.right-container {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.left-container h4 {
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-size: 1em;
+}
+
+.right-container p {
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    font-weight: normal;
 }
 
 .inside {
     width: 90%;
     height: 90%;
+}
+
+.flex-participants {
+    display: flex;
+    gap: 20px;
+}
+
+.right-container h4 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: bold;
+}
+
+.participant {
+    width: 60px;
+}
+
+.participant p {
+    text-align: center;
 }
 
 a {
@@ -308,6 +467,10 @@ h3 {
     color: black;
     font-family: 'Montserrat', sans-serif;
     margin: 0;
+}
+
+.sortie h4 {
+    text-align: center;
 }
 
 .sortie-description {
@@ -426,6 +589,27 @@ footer a {
         align-items: flex-end;
     }
 
+
+    .right-container {
+        text-align: center;
+    }
+
+    .right-container p {
+        margin: 0;
+    }
+
+    .right-container h4 {
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    .right-container h5 {
+        margin-top: 5px;
+    }
+
+    .flex-participants {
+        justify-content: center;
+    }
 
 }
 

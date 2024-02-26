@@ -2,19 +2,29 @@
 {% block title %}Ajouter une ville{% endblock %}
 {% block body %}
 
-    <div class="d-flex justify-content-center flex-column card container p-3 shadow-sm my-5 fond"
+    <div class="sortie-detail"
          style="max-width: 800px;">
-        <h1 class="d-flex justify-content-center my-3">Liste des sites existants :</h1>
+        <h1 class="d-flex justify-content-center my-3">Sites existants</h1>
+        <div class="padding"></div>
         {% for site in site %}
             <ul class="list-group text-center">
-                <li class="list-group-item text-center d-flex justify-content-between align-items-center couleurTableau bordure mb-2">
-                    <div>- {{ site.nom }}</div>
+                <li class="text-center d-flex justify-content-between align-items-center mb-2 button-background">
+
+
+                    <div>{{ site.nom |upper }}</div>
                     <div>
-                        <a class=" btn buttonDetail " href="{{ path('app_main', {'id': site.id}) }}">Supprimer</a>
+                        <a class=" btn buttonDetail " href="{{ path('app_main', {'id': site.id}) }}" style="color:white"><i class="fa-solid fa-xmark"></i></i></a>
                     </div>
                 </li>
             </ul>
         {% endfor %}
-        <a class=" btn buttonDetail " href="{{ path('app_new_city') }}">Ajouter une ville</a>
+        <div class="padding"></div>
+        <div class="width-100">
+            <a href="{{ path('app_new_city') }}">
+                <button class="button-background">AJOUTER UNE VILLE <i class="fa-solid fa-plus"></i></button>
+            </a>
+        </div>
     </div>
+
+
 {% endblock %}

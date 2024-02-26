@@ -2,22 +2,47 @@
 {% block title %}Liste utilisateurs!{% endblock %}
 {% block body %}
 
-    <div class="d-flex justify-content-center flex-column card container p-3 shadow-sm my-5 fond"
-         style="max-width: 800px;">
-        <h1 class="d-flex justify-content-center my-3">Liste Utilisateur :</h1>
-        <h2>Filtrer les utilisateurs</h2>
-        {{ form(userForm) }}
-        {% for user in user %}
-            <ul class="list-group text-center">
-                <li class="list-group-item text-center d-flex justify-content-between align-items-center couleurTableau bordure mb-2">
-                    <div>- {{ user.nom }} {{ user.prenom }}</div>
-                    <div><a class=" btn buttonDetail " href="{{ path('app_detail_user', {'id': user.id}) }}">Détail</a>
-                        <a class=" btn buttonDetail "
-                           href="{{ path('app_desactivate_user', {'id': user.id}) }}">{{ user.actif ? "Desactiver" : "Activer" }}</a>
-                        <a class=" btn buttonDetail " href="{{ path('app_delete_user', {'id': user.id}) }}">Supprimer</a>
-                    </div>
-                </li>
-            </ul>
-        {% endfor %}
+    <div class="search-form-users">
+        <div class="margin"></div>
+        <h1 class="d-flex justify-content-center my-3">Liste des utilisateurs</h1>
+        <div class="margin"></div>
+        <div class="flex-users">
+            {{ form_start(userForm) }}
+            {{ form(userForm) }}
+            <button type="submit" class="button-profil-background">
+                Rechercher
+            </button>
+            {{ form_end(userForm) }}
+        </div>
+
+        <div class="margin"></div>
+
+        <div class="grid-users">
+            {% for user in user %}
+                <ul class="bg-blue">
+                    <li class="flex">
+                        <div class="user">{{ user.nom }} {{ user.prenom }}</div>
+                        <div>
+                            <button class="button-i">
+                                <a href="{{ path('app_detail_user', {'id': user.id}) }}"><i
+                                            class="fa-solid fa-magnifying-glass"></i></a>
+                            </button>
+                            <button class="button-i">
+                                <a href="{{ path('app_delete_user', {'id': user.id}) }}"><i
+                                            class="fa-solid fa-trash-can"></i></a>
+                            </button>
+                            <button class="button-i">
+                                <a href="{{ path('app_desactivate_user', {'id': user.id}) }}">{{ user.actif ? "Desactiver" : "Activer" }}</a>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+
+            {% endfor %}
+        </div>
+        <div class="margin"></div>
     </div>
+
+
+
 {% endblock %}

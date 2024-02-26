@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\CancelType;
 use App\Form\SearchFormType;
@@ -24,10 +25,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
-    public function index(SortieRepository $sortieRepository, SiteRepository $siteRepository, Request $request): Response
+    public function index(SortieRepository $sortieRepository, ParticipantRepository $participantRepository, Request $request): Response
     {
         $form = $this->createForm(SearchFormType::class);
         $form->handleRequest($request);
+
+        $participant = $participantRepository->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -46,6 +49,7 @@ class SortieController extends AbstractController
         return $this->render('sortie/index.html.twig', [
             'searchForm' => $form,
             'sorties' => $sorties,
+            'participant' => $participant
         ]);
     }
 
@@ -88,10 +92,17 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
-    public function show(Sortie $sortie): Response
+    public function show(Sortie $sortie, ParticipantRepository $participantRepository): Response
     {
+        $participant = $sortie->getOrganisateur()->getId();
+
+        $user = $participantRepository->find($participant);
+
+
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
+            'participant' => $participant,
+            'user' => $user
         ]);
     }
 
