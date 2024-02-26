@@ -9,9 +9,8 @@ use App\Form\CancelType;
 use App\Form\SearchFormType;
 use App\Form\SortieType;
 use App\Helper\MailSender;
-use App\Repository\ParticipantRepository;
-use App\Repository\SiteRepository;
 use App\Repository\EtatRepository;
+use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +28,6 @@ class SortieController extends AbstractController
     {
         $form = $this->createForm(SearchFormType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
@@ -87,7 +85,6 @@ class SortieController extends AbstractController
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
             'form' => $form,

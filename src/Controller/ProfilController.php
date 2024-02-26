@@ -64,6 +64,11 @@ class ProfilController extends AbstractController
         if($participant->getEmail() !== $this->getUser()->getUserIdentifier()) {
             return $this->redirectToRoute('app_profil', ['id' => $participant->getId()]);
         }
+        $userRole = $this->getUser()->getRoles();
+
+        if (in_array('ROLE_ADMIN', $userRole)){
+            return $this->redirectToRoute('app_profil', ['id' => $participant->getId()]);
+        }
 
         $em->remove($participant);
         $em->flush();
