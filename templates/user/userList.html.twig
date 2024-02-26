@@ -6,14 +6,15 @@
         <div class="margin"></div>
         <h1 class="d-flex justify-content-center my-3">Liste des utilisateurs</h1>
         <div class="margin"></div>
+        {{ form_start(userForm) }}
         <div class="flex-users">
-            {{ form_start(userForm) }}
+
             {{ form(userForm) }}
             <button type="submit" class="button-profil-background">
                 Rechercher
             </button>
-            {{ form_end(userForm) }}
-        </div>
+
+        </div>{{ form_end(userForm) }}
 
         <div class="margin"></div>
 

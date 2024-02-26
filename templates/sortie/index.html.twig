@@ -55,51 +55,61 @@
 
             {% for sortie in sorties %}
 
-            <div class="sortie">
-                <div class="left-container-sortie">
+                <div class="sortie">
+                    <div class="left-container-sortie">
 
-                    {% if app.user == sortie.organisateur %}
-                        <div class="flex-icon">
-                            <a href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">
-                                <i class="fa-regular fa-circle-xmark"></i>
-                            </a>
+                        {% if app.user == sortie.organisateur %}
+                            <div class="flex-icon">
+                                <a href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">
+                                    <i class="fa-regular fa-circle-xmark"></i>
+                                </a>
 
-                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </a>
-                        </div>
-                    {% endif %}
+                                <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </a>
+                            </div>
+                        {% endif %}
 
-                    <div class="padding"></div>
-                    <img src="{{ asset(profil_pic_dir ~ '/' ~  sortie.organisateur.posterFile) }}" alt="avatar1"
-                         class="rounded-circle img-fluid" style="width: 150px;">
-                    <div class="padding"></div>
-                    <h4>
-                        <a href="{{ path('app_profil', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</a>
-                    </h4>
+                        <div class="padding"></div>
+                        {% if sortie.organisateur.posterFile is null %}
+                            {% if sortie.organisateur.sexe =='femme' %}
+                                <img src="{{ asset('img/femme-verte-aux-cheveux-bleus_24877-81805.jpg') }}"
+                                     alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                            {% else %}
+                                <img src="{{ asset('img/avatarHomme.webp') }}"
+                                     alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                            {% endif %}
+                        {% else %}
+                            <img src="{{ asset(profil_pic_dir ~ '/' ~  sortie.organisateur.posterFile) }}" alt="avatar1"
+                                 class="rounded-circle img-fluid" style="width: 150px;">
+                        {% endif %}
+                        <div class="padding"></div>
+                        <h4>
+                            <a href="{{ path('app_profil', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</a>
+                        </h4>
 
-                    <div class="padding"></div>
+                        <div class="padding"></div>
 
-
-
-                </div>
-                <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">
-                    <div class="right-container">
-
-
-                        <h3>{{ sortie.nom }}</h3>
-                        <h5>le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
-                            - {{ sortie.duree }}</h5>
-                        <div class="little-padding"></div>
-                        <p><b>Participants :</b><br> {{ sortie.inscrits | length }} / {{ sortie.nbInscriptionMax }}</p>
-                        <div class="little-padding"></div>
-                        <p><b>Description de la sortie: </b><br>{{ sortie.infosSortie }}</p>
 
                     </div>
-                </a>
-            </div>
+                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">
+                        <div class="right-container">
 
 
+                            <h3>{{ sortie.nom }}</h3>
+                            <h5>le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
+                                - {{ sortie.duree }}</h5>
+                            <div class="little-padding"></div>
+                            <p><b>Participants :</b><br> {{ sortie.inscrits | length }} / {{ sortie.nbInscriptionMax }}
+                            </p>
+                            <div class="little-padding"></div>
+                            <p><b>Description de la sortie: </b><br>{{ sortie.infosSortie }}</p>
+
+                        </div>
+                    </a>
+                </div>
+
+            {% endfor %}
         {% else %}
             <h3>Aucune sortie d'organisée</h3>
 
@@ -117,9 +127,8 @@
                     {% endif %}
                 </div>
             </td>
-
-        {% endfor %}
         {% endif %}
+
 
     </div>
 

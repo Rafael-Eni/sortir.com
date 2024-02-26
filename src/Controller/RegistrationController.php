@@ -64,7 +64,7 @@ class RegistrationController extends AbstractController
             );
 
             $subject = 'Nouvelle inscription';
-            $text = 'Un nouvelle utilisateur vient de s\'inscrire :  \n' . $user->getNom() . ' ' . $user->getPrenom() . ' ' . $user->getEmail();
+            $text = 'Un nouvelle utilisateur vient de s\'inscrire : ' . $user->getNom() . ' ' . $user->getPrenom() . ' ' . $user->getEmail();
             $mailSender->sendEmail($subject, $text, 'admin@sortir.com');
 
             $this->addFlash("success", "Tu viens de recevoir un email de vérification pour valider ton compte");
