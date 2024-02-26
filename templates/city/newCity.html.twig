@@ -5,27 +5,29 @@
 {% block body %}
 
 
-    <a href="{{ path('app_list_site') }}">
-        <button class="button-background"><i class="fa-solid fa-arrow-rotate-left"></i> Retour à la liste</button>
-    </a>
+
 
     <div class="ajout-ville" style="max-width: 800px;">
-    <h1>Ajouter un nouveau site</h1>
+        <h1>Ajouter un nouveau site</h1>
 
         <div class="margin"></div>
 
-    {{ form_start(siteForm) }}
-    {{ form(siteForm) }}
-
-        <div class="padding"></div>
+        {{ form_start(siteForm) }}
+        {{ form_widget(siteForm) }}
+        {{ form_errors(siteForm) }}
 
         <div class="button">
-            <a href="{{ path('app_sortie_new') }}">
-                <button>AJOUTER UN SITE <i class="fa-solid fa-plus"></i></button>
+            <div class="padding"></div>
+            <button type="submit">
+                Ajouter site
+                <i class="fa-solid fa-plus"></i>
+            </button>
+            <a href="{{ path('app_list_site') }}"
+               class="button-background"><i class="fa-solid fa-arrow-rotate-left"></i> Retour à la liste
             </a>
+            <div class="padding"></div>
         </div>
         {{ form_end(siteForm) }}
-
     </div>
 
     <div class="margin"></div>

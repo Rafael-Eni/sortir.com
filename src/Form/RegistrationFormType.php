@@ -132,7 +132,7 @@ class RegistrationFormType extends AbstractType
                 'label' => false,
                 'placeholder' => 'Sexe',
                 'choices' => [
-                    'Feminim' => 'femme',
+                    'Feminin' => 'femme',
                     'Masculin' => 'homme'
                 ],
                 'constraints' => [
