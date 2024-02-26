@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\CancelType;
 use App\Form\SearchFormType;
@@ -55,6 +56,12 @@ class SortieController extends AbstractController
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
+        $userRole = $this->getUser()->getRoles();
+
+        if(in_array('ROLE_ADMIN', $userRole)){
+            $this->addFlash('warning', 'Tu es l\'admin');
+            return $this->redirectToRoute('app_sortie_index');
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Create Ville
