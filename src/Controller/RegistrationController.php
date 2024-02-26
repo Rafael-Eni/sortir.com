@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\RegistrationFormType;
+use App\Helper\MailSender;
 use App\Repository\ParticipantRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,7 +28,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository, MailSender $mailSender): Response
     {
         $user = new Participant();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -61,6 +62,10 @@ class RegistrationController extends AbstractController
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
+
+            $subject = 'Nouvelle inscription';
+            $text = 'Un nouvelle utilisateur vient de s\'inscrire :  \n' . $user->getNom() . ' ' . $user->getPrenom() . ' ' . $user->getEmail();
+            $mailSender->sendEmail($subject, $text, 'admin@sortir.com');
 
             $this->addFlash("success", "Tu viens de recevoir un email de vérification pour valider ton compte");
 
