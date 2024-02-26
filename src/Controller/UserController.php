@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Form\ContactType;
 use App\Form\UserType;
 use App\Helper\MailSender;
 use App\Repository\ParticipantRepository;
@@ -77,5 +78,27 @@ class UserController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_list_user');
+    }
+    #[Route('/user/message/{id}', name: 'app_message_user')]
+    public function contact(Request $request, MailSender $mailSender, Participant $participant): Response
+    {
+        $form = $this->createForm(ContactType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = $form->getData();
+            $destinataire = $participant->getEmail();
+            $sujet = $data['sujet'];
+            $message = $data['message'];
+            $mailSender->sendEmail($sujet, $message, $destinataire);
+            $this->addFlash("success", "Votre email a bien été envoyé !");
+            return $this->redirectToRoute('app_message_user', ['id' => $participant->getId()]);
+        }
+
+        return $this->render('user/MessageUser.html.twig',[
+            'form' => $form,
+            'user' => $participant,
+        ]);
     }
 }
