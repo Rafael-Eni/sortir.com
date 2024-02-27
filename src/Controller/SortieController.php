@@ -32,13 +32,20 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
+            $filteredData = array_filter($data, function ($value) {
+                return $value !== null && $value !== false;
+            });
+            if (empty($filteredData)) {
+                $sorties = $sortieRepository->findAllStartingWithinMonth();
+            } else {
+                $data['organisateur'] = $data['organisateur'] ? $this->getUser()->getId() : false;
+                $data['participant'] = $data['participant'] ? $this->getUser()->getId() : false;
+                $data['nonParticipant'] = $data['nonParticipant'] ? $this->getUser()->getId() : false;
+                $data['finished'] = $data['finished'] ? 5 : false;
 
-            $data['organisateur'] = $data['organisateur'] ? $this->getUser()->getId() : false;
-            $data['participant'] = $data['participant'] ? $this->getUser()->getId() : false;
-            $data['nonParticipant'] = $data['nonParticipant'] ? $this->getUser()->getId() : false;
-            $data['finished'] = $data['finished'] ? 5 : false;
+                $sorties = $sortieRepository->findByFilters($data);
+            }
 
-            $sorties = $sortieRepository->findByFilters($data);
         } else {
             $sorties = $sortieRepository->findAllStartingWithinMonth();
         }
@@ -58,7 +65,7 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
         $userRole = $this->getUser()->getRoles();
 
-        if(in_array('ROLE_ADMIN', $userRole)){
+        if (in_array('ROLE_ADMIN', $userRole)) {
             $this->addFlash('warning', 'Tu es l\'admin');
             return $this->redirectToRoute('app_sortie_index');
         }
@@ -168,7 +175,7 @@ class SortieController extends AbstractController
         $participant = $sortie->getOrganisateur()->getId();
         $user = $participantRepository->find($participant);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($isUserOrganisateur && $isBeforeStartDate && $isSortiePublished) {
                 $canceledState = $etatRepository->findOneBy(['libelle' => 'Annulée']);
                 $sortie->setEtat($canceledState);
