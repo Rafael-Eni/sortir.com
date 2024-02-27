@@ -100,20 +100,20 @@
                 {% endif %}
                 <div>
                     {% if app.user == sortie.organisateur %}
-                        <a href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">
-                            <button class="button-profil-background">
+                        {% if sortie.etat.libelle == "Ouverte" %}
+                            <a class="button-profil-background"
+                               href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">
                                 Annuler
                                 l'évènement
-                            </button>
-                        </a>
-                        <div class="padding"></div>
-                        {% if sortie.etat.libelle == "Créée" %}
-                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">
-                                <button class="button-profil-background">
-                                    Modifier
-                                    l'évènement
-                                </button>
                             </a>
+                            <div class="padding"></div>
+                        {% endif %}
+                        {% if sortie.etat.libelle == "Créée" %}
+                            <a class="button-profil-background" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">
+                                Modifier
+                            </a>
+                            <div class="padding"></div>
+                            {% include "sortie/_delete_form.html.twig" %}
                         {% endif %}
                         <div class="padding"></div>
                     {% endif %}
