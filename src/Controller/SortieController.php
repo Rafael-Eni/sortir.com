@@ -145,10 +145,12 @@ class SortieController extends AbstractController
 
     }
 
-    #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_sortie_delete', methods: ['GET', 'POST'])]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
-        if ($sortie->getOrganisateur()->getEmail() === $this->getUser()->getUserIdentifier() && !$sortie->isIsPublished()) {
+        $isUserOrganisateur = $sortie->getOrganisateur()->getEmail() === $this->getUser()->getUserIdentifier();
+        $isSortiePublished = $sortie->isIsPublished();
+        if ($isUserOrganisateur && !$isSortiePublished) {
             if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $request->request->get('_token'))) {
                 $entityManager->remove($sortie);
                 $entityManager->flush();
