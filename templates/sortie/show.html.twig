@@ -76,6 +76,7 @@
                             </div>
                         {% endfor %}
                     </div>
+                {% endif %}
                     <div>
                         {% if sortie.etat.libelle == 'Ouverte' or sortie.etat.libelle == 'Clôturée' %}
                             {% if app.user != sortie.organisateur and app.user in sortie.inscrits %}
@@ -97,7 +98,7 @@
 
                         {% endif %}
                     </div>
-                {% endif %}
+
                 <div>
                     {% if app.user == sortie.organisateur %}
                         {% if sortie.etat.libelle == "Ouverte" %}
