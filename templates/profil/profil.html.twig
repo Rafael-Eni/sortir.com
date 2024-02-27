@@ -40,7 +40,8 @@
                                 {% endif %}
                             {% else %}
                                 <button type="button" class="button-profil-background">Follow</button>
-                                <a  class="button-profil" href="{{ path('app_message_user', {'id': user.id}) }}">Message</a>
+                                <a class="button-profil"
+                                   href="{{ path('app_message_user', {'id': user.id}) }}">Message</a>
                             {% endif %}
                         </div>
                     </div>

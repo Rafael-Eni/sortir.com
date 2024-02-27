@@ -16,8 +16,16 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_main')]
     public function index(): Response
     {
+
+        $picturesArray = ["01", "02", "03", "04", "05"];
+
+        $randomNumber = rand(0, count($picturesArray) - 1);
+
+        $numPicture = $picturesArray[$randomNumber];
+
         return $this->render('main/index.html.twig',[
             'controller_name' => 'MainController',
+            'numPicture' => $numPicture
         ]);
     }
 
