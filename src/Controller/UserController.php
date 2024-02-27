@@ -59,6 +59,12 @@ class UserController extends AbstractController
     #[Route('/user/delete/{id}', name: 'app_delete_user', requirements: ['id' => '\d+'])]
     public function deleteUser(Participant $participant, EntityManagerInterface $em, MailSender $mailSender): Response
     {
+        $userRole = $participant->getRoles();
+
+        if (in_array('ROLE_ADMIN', $userRole)){
+            return $this->redirectToRoute('app_list_user');
+        }
+
         $sorties = $participant->getSorties();
         if ($sorties->count()>0){
             foreach ($sorties as $sortie){
