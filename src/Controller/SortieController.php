@@ -157,7 +157,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}/cancel', name: 'app_sortie_cancel', methods: ['GET', 'POST'])]
-    public function cancel(Request $request, Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository, MailSender $mailSender): Response
+    public function cancel(Request $request, Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository, MailSender $mailSender, ParticipantRepository $participantRepository): Response
     {
         $isUserOrganisateur = $sortie->getOrganisateur()->getEmail() === $this->getUser()->getUserIdentifier();
         $isBeforeStartDate = new \DateTime() < $sortie->getDateHeureDebut();
@@ -165,6 +165,9 @@ class SortieController extends AbstractController
 
         $form = $this->createForm(CancelType::class);
         $form->handleRequest($request);
+
+        $participant = $sortie->getOrganisateur()->getId();
+        $user = $participantRepository->find($participant);
 
         if($form->isSubmitted() && $form->isValid()) {
             if ($isUserOrganisateur && $isBeforeStartDate && $isSortiePublished) {
@@ -190,7 +193,8 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/cancel.html.twig', [
             'form' => $form,
-            'sortie' => $sortie
+            'sortie' => $sortie,
+            'user' => $user
         ]);
 
     }

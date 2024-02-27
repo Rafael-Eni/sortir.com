@@ -44,7 +44,7 @@ class SearchFormType extends AbstractType
                 'label' => 'Ecole de rattachement',
                 'class' => Site::class,
                 'choice_label' => 'nom',
-                'placeholder' => '----- Choisir un site -----',
+                'placeholder' => '--- Choisir un site ---',
                 'row_attr' => [
                     'class' => 'wave-group bar width'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
                 ],

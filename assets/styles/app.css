@@ -383,6 +383,26 @@ nav li a {
     justify-content: center;
 }
 
+.cancel-event {
+    background-color: #f5f5f5;
+    padding: 30px;
+    min-height: 300px;
+    width: 80%;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cancel-event h5 {
+    text-transform: uppercase;
+}
+
+.cancel-event p {
+    font-weight: normal;
+}
+
 .left-container {
     display: flex;
     flex-direction: column;
@@ -399,8 +419,10 @@ nav li a {
 
 .flex-icon {
     display: flex;
-    width: 70%;
-    justify-content: space-evenly;
+    width: 80%;
+    justify-content: flex-start;
+    font-size: 1.5em;
+    gap: 10px;
 }
 
 .right-container h5 {
@@ -588,7 +610,6 @@ footer a {
         flex-direction: column;
         align-items: flex-end;
     }
-
 
     .right-container {
         text-align: center;

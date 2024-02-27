@@ -14,11 +14,18 @@ class CancelType extends AbstractType
     {
         $builder
             ->add('motif', TextareaType::class, [
-                'label' => 'Motif :',
+                'label' => false,
                 'required' => true,
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Enregistrer'
+                'row_attr' => [
+                    'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ],
+                'attr' => [
+                    'placeholder' => 'Indiquez le motif de l\'annulation ici',
+                    'class' => 'input'
+                ]
             ])
         ;
     }
