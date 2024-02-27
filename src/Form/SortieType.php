@@ -2,15 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Etat;
-use App\Entity\Lieu;
-use App\Entity\Participant;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -37,19 +33,18 @@ class SortieType extends AbstractType
                 ]
             ])
             ->add('dateHeureDebut', DateType::class, [
-                'label' => false,
+
+                'label' => 'Date de l\'activité',
                 'row_attr' => [
                     'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
                 ],
-                'label_attr' => [
-                    'class' => 'label'
-                ],
+
                 'attr' => [
                     'placeholder' => 'Date de l\'activité',
                     'class' => 'input'
-                ]
+                ],
             ])
-            ->add('duree', NumberType::class, [
+            ->add('duree', TextType::class, [
                 'label' => false,
                 'row_attr' => [
                     'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
@@ -63,13 +58,11 @@ class SortieType extends AbstractType
                 ]
             ])
             ->add('dateLimiteInscription', DateType::class, [
-                'label' => false,
+                'label' => 'Date limite',
                 'row_attr' => [
                     'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
                 ],
-                'label_attr' => [
-                    'class' => 'label'
-                ],
+
                 'attr' => [
                     'placeholder' => 'Date limite',
                     'class' => 'input'
@@ -102,12 +95,9 @@ class SortieType extends AbstractType
                 ]
             ])
             ->add('lieu', LieuType::class, [
-                'label' => false,
+                'label' => 'Adresse du lieu',
                 'row_attr' => [
                     'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
-                ],
-                'label_attr' => [
-                    'class' => 'label'
                 ],
             ])
             ->add('site', EntityType::class, [
@@ -118,18 +108,17 @@ class SortieType extends AbstractType
                 'row_attr' => [
                     'class' => 'wave-group bar'// Remplacez ici la classe Bootstrap par votre classe CSS personnalisée
                 ],
-                            'label_attr' => [
+                'label_attr' => [
                     'class' => 'label'
                 ],
-                            'attr' => [
+                'attr' => [
                     'class' => 'input'
                 ]
             ])
             ->add('isPublished', CheckboxType::class, [
                 'label' => 'Publier l\'annonce',
                 'required' => false
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
