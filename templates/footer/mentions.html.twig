@@ -18,13 +18,17 @@
 
         <div class="padding"></div>
 
-        <p style="font-weight: 500">[Raison sociale de l'entreprise]
-            [Forme juridique de l'entreprise] au capital de [montant du capital social] euros
-            Immatriculée au Registre du Commerce et des Sociétés de [ville d'immatriculation] sous le numéro [numéro d'immatriculation]
-            Siège social : [adresse du siège social]
-            Téléphone : [numéro de téléphone]
-            Email : [adresse email]
-            Directeur de la publication : [nom du directeur de la publication]</p>
+        <p style="font-weight: 500">SARL EniSorties
+            <br>
+            EniSorties au capital de 130 000 000 000 euros
+            <br>
+            Immatriculée au Registre du Commerce et des Sociétés de St Herblain sous le numéro 485172b
+            <br>
+            Téléphone : {{ admin.telephone }}
+            <br>
+            Email : {{ admin.email }}
+            <br>
+            Directeur de la publication : {{ admin.nom }} {{ admin.prenom }}</p>
 
         <div class="padding"></div>
 
@@ -32,10 +36,13 @@
 
         <div class="padding"></div>
 
-        <p style="font-weight: 500">[Raison sociale de l'hébergeur]
-            [Adresse de l'hébergeur]
-            Téléphone : [numéro de téléphone]
-            Email : [adresse email]</p>
+        <p style="font-weight: 500">SARL EniSorties
+            <br>
+            2b rue Benjamin Franklin
+            <br>
+            Téléphone : {{ admin.telephone }}
+            <br>
+            Email : {{ admin.email }}</p>
 
         <div class="padding"></div>
 
@@ -43,7 +50,7 @@
 
         <div class="padding"></div>
 
-        <p style="font-weight: 500">Le présent site et l'ensemble de son contenu (textes, images, sons, vidéos, etc.) sont protégés par le droit d'auteur et autres droits de propriété intellectuelle. Toute reproduction ou représentation totale ou partielle de ce site ou de son contenu est strictement interdite sans autorisation expresse et préalable de [Raison sociale de l'entreprise].</p>
+        <p style="font-weight: 500">Le présent site et l'ensemble de son contenu (textes, images, sons, vidéos, etc.) sont protégés par le droit d'auteur et autres droits de propriété intellectuelle. Toute reproduction ou représentation totale ou partielle de ce site ou de son contenu est strictement interdite sans autorisation expresse et préalable de SARL EniSorties.</p>
 
         <div class="padding"></div>
 
@@ -51,7 +58,8 @@
 
         <div class="padding"></div>
 
-        <p style="font-weight: 500">Les données personnelles collectées sur ce site sont uniquement destinées à [Raison sociale de l'entreprise] et ne seront en aucun cas transmises à des tiers. Conformément à la loi "Informatique et Libertés" du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Pour exercer ce droit, veuillez contacter [Raison sociale de l'entreprise] à l'adresse suivante : [adresse postale] ou par email à [adresse email].</p>
+        <p style="font-weight: 500">Les données personnelles collectées sur ce site sont uniquement destinées à SARL EniSorties et ne seront en aucun cas transmises à des tiers. Conformément à la loi "Informatique et Libertés" du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Pour exercer ce droit, veuillez contacter SARL EniSorties à l'adresse suivante : 2b rue Benjamin Franklin ou par email à
+            {{ admin.email }}.</p>
 
         <div class="padding"></div>
 
@@ -67,7 +75,7 @@
 
         <div class="padding"></div>
 
-        <p style="font-weight: 500">Les liens hypertextes présents sur ce site et orientant les utilisateurs vers d'autres sites internet n'engagent pas la responsabilité de [Raison sociale de l'entreprise] quant au contenu de ces sites.</p>
+        <p style="font-weight: 500">Les liens hypertextes présents sur ce site et orientant les utilisateurs vers d'autres sites internet n'engagent pas la responsabilité de EniSorties quant au contenu de ces sites.</p>
 
         <div class="padding"></div>
 
@@ -75,7 +83,7 @@
 
         <div class="padding"></div>
 
-        <p style="font-weight: 500">Le design et le développement de ce site ont été réalisés par [Nom de l'agence ou du développeur].</p>
+        <p style="font-weight: 500">Le design et le développement de ce site ont été réalisés par {{ admin.nom}} {{ admin.prenom }}.</p>
 
         <div class="margin"></div>
         <div class="margin"></div>

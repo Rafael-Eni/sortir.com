@@ -5,7 +5,12 @@
 body {
     background-color: #FFFFFF;
 }
-
+.titreSortieProfil{
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.1em;
+    font-weight: bold;
+}
 
 .wave-group {
     position: relative;
@@ -634,6 +639,3 @@ footer a {
 
 }
 
-.fondTableau{
-
-}

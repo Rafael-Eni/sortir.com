@@ -31,10 +31,12 @@ class MainController extends AbstractController
     }
 
     #[Route('/mentions-legales', name: 'app_mentions')]
-    public function mentionsLegales(): Response
+    public function mentionsLegales(ParticipantRepository $participantRepository): Response
     {
+        $admin = $participantRepository->findByRole('ROLE_ADMIN');
+
         return $this->render('footer/mentions.html.twig',[
-            'controller_name' => 'MainController',
+            'admin'=>$admin[0]
         ]);
     }
     #[IsGranted('ROLE_USER')]
