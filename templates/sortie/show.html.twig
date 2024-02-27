@@ -59,8 +59,8 @@
 
                         <div class="participant">
                             <a href="{{ path('app_profil', {'id': inscrit.id}) }}">
-                                {% if sortie.organisateur.posterFile is null %}
-                                    {% if sortie.organisateur.sexe =='femme' %}
+                                {% if inscrit.posterFile is null %}
+                                    {% if inscrit.sexe =='femme' %}
                                         <img src="{{ asset('img/femme-verte-aux-cheveux-bleus_24877-81805.jpg') }}"
                                              alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
                                     {% else %}
@@ -68,7 +68,7 @@
                                              alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
                                     {% endif %}
                                 {% else %}
-                                    <img src="{{ asset(profil_pic_dir ~ '/' ~  sortie.organisateur.posterFile) }}"
+                                    <img src="{{ asset(profil_pic_dir ~ '/' ~  inscrit.posterFile) }}"
                                          alt="avatar1"
                                          class="rounded-circle img-fluid" style="width: 150px;">
                                 {% endif %}
