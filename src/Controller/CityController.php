@@ -29,6 +29,7 @@ class CityController extends AbstractController
             'siteForm' => $form,
         ]);
     }
+
     #[Route('/site', name: 'app_list_site', methods: ['GET', 'POST'])]
     public function listSite(SiteRepository $siteRepository, Request $request): Response
     {
@@ -47,5 +48,20 @@ class CityController extends AbstractController
             'site' => $site,
             'siteForm' => $form
         ]);
+    }
+
+    #[Route('/city/delete/{id}', name: 'app_delete_city', requirements: ['id' => '\d+'])]
+    public function deleteCity(Site $site, EntityManagerInterface $em): Response
+    {
+        $city = $site->getSorties();
+        if ($city->count() > 0) {
+            $this->addFlash("warning", "Une ou plusieurs sorties sont affectées a ce site !");
+            return $this->redirectToRoute('app_list_site');
+        }
+
+        $em->remove($site);
+        $em->flush();
+
+        return $this->redirectToRoute('app_list_site');
     }
 }

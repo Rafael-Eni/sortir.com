@@ -153,7 +153,6 @@ class SortieController extends AbstractController
                 "id" => $sortie->getId(),
             ]);
         }
-
     }
 
     #[Route('/{id}/cancel', name: 'app_sortie_cancel', methods: ['GET', 'POST'])]
