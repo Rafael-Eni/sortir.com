@@ -129,7 +129,7 @@ body {
     text-align: center;
 }
 
-button:hover {
+.button-profil-background:hover, .button-background:hover {
     opacity: 80%;
     transition: .1s;
 }
