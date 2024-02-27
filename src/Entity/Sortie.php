@@ -21,21 +21,24 @@ class Sortie
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 2,minMessage: 'Trop court', max: 55, maxMessage: 'Trop long')]
-    #[Assert\Regex(pattern: "/^[a-zA-Z\s]+$/", message: 'Ne doit contenir que des lettres')]
+    #[Assert\Length(min: 2, minMessage: 'Trop court', max: 55, maxMessage: 'Trop long')]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\GreaterThan('today UTC', message: "L'activité doit être dans le futur")]
+    #[Assert\GreaterThan('today UTC', message: "La date de l'activité ne peut pas être passée")]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: '/^\d+\s?\p{L}+$/u',
+        message: "La durée doit comprendre un nombre suivie d'un espace puis d'au moins une lettre."
+    )]
     private ?string $duree = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\LessThan(propertyPath: 'dateHeureDebut', message: 'La date de limite inscription soit être inférieure à la date de début')]
-    #[Assert\GreaterThan('today UTC', message: "La date limite d'inscription doit être dans le futur")]
+    #[Assert\GreaterThan('today UTC', message: "La date limite d'inscription ne peut pas être passée")]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
     #[ORM\Column]
@@ -44,7 +47,7 @@ class Sortie
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: '20', minMessage: 'Description trop courte', max: 255, maxMessage: 'Description trop longue')]
+    #[Assert\Length(min: '10', minMessage: 'Description trop courte', max: 255, maxMessage: 'Description trop longue')]
     private ?string $infosSortie = null;
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]

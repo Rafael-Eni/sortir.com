@@ -10,8 +10,18 @@
         <div class="grid">
 
             <div class="left-container">
-                <img src="{{ asset(profil_pic_dir ~ '/' ~ user.posterFile) }}" alt="avatar1"
-                     class="rounded-circle img-fluid" style="width: 150px;">
+                {% if user.posterFile is null %}
+                    {% if user.sexe =='femme' %}
+                        <img src="{{ asset('img/femme-verte-aux-cheveux-bleus_24877-81805.jpg') }}"
+                             alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                    {% else %}
+                        <img src="{{ asset('img/avatarHomme.webp') }}"
+                             alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                    {% endif %}
+                {% else %}
+                    <img src="{{ asset(profil_pic_dir ~ '/' ~ user.posterFile) }}" alt="avatar1"
+                         class="rounded-circle img-fluid" style="width: 150px;">
+                {% endif %}
                 <div class="padding"></div>
                 <h4>Organisateur de l'évènement</h4>
                 <h3><a href="{{ path('app_profil', {'id': user.id}) }}">{{ user.prenom }} {{ user.nom }}</a></h3>

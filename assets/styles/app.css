@@ -309,7 +309,7 @@ nav li a {
     border: 2px solid #399D7B;
     color: #399D7B;
     padding: 10px;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .search-button:hover {

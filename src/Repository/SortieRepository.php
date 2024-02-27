@@ -57,8 +57,12 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('dateDebut', $filters['dateDebut']);
         }
         if (!empty($filters['dateFin'])) {
-            $qb->andWhere('s.dateLimiteInscription <= :dateFin')
+            $qb->andWhere('s.dateHeureDebut <= :dateFin')
                 ->setParameter('dateFin', $filters['dateFin']);
+        }
+        if (!empty($filters['created'])) {
+            $qb->andWhere('s.etat = :created')
+                ->setParameter('created', $filters['created']);
         }
         return $qb->getQuery()->getResult();
     }
@@ -70,6 +74,7 @@ class SortieRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.dateHeureDebut >= :dateLimite')
             ->andWhere('s.etat != 6')
+            ->andWhere('s.etat != 1')
             ->setParameter('dateLimite', $dateLimite)
             ->getQuery()
             ->getResult();
