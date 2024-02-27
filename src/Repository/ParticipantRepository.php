@@ -42,7 +42,9 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
 
     public function findUserByFilters(array $filters = []): array
     {
-        $qb = $this->createQueryBuilder('s');
+        $qb = $this->createQueryBuilder('s')
+            ->andWhere('s.roles LIKE :role')
+            ->setParameter('role','%"' . 'ROLE_USER' . '"%');
 
         if (!empty($filters['actif'])) {
             $qb->andWhere('s.actif = :actif')
@@ -60,6 +62,17 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
                 ->setParameter('search', '%' . $filters['search'] . '%');
         }
         return $qb->getQuery()->getResult();
+    }
+
+        public function findByRole(string $role): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.roles LIKE :role')
+            ->setParameter('role','%"' . $role . '"%')
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 //    /**
