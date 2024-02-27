@@ -15,11 +15,13 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 {% include "partials/_header.html.twig" %}
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="alert alert-{{ label }}"> {{ message }} </div>
+<div class="w-50 my-2 mx-auto">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} text-center"> {{ message }} </div>
+        {% endfor %}
     {% endfor %}
-{% endfor %}
+</div>
 <div class="container p-2 flex-fill d-flex align-items-center justify-content-center flex-column" id="main-container">
     {% block body %}
     {% endblock %}

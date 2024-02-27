@@ -7,10 +7,13 @@ use App\Form\ContactType;
 use App\Form\UserType;
 use App\Helper\MailSender;
 use App\Repository\ParticipantRepository;
+use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -46,25 +49,34 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/desactivate/{id}', name: 'app_desactivate_user')]
-    public function desactivate(Participant $participant, EntityManagerInterface $entityManager): Response
+    public function desactivate(Participant $participant, EntityManagerInterface $entityManager, EmailVerifier $emailVerifier): Response
     {
         if ($participant->isActif()) {
             $participant->setActif(false);
         } else {
             $participant->setActif(true);
+            // generate a signed url and email it to the user
+            $emailVerifier->sendEmailConfirmation('app_verify_email', $participant,
+                (new TemplatedEmail())
+                    ->from(new Address('noreply@sortir.com', 'admin'))
+                    ->to($participant->getEmail())
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
         }
         $entityManager->flush();
         return $this->redirectToRoute('app_list_user');
     }
+
     #[Route('/user/delete/{id}', name: 'app_delete_user', requirements: ['id' => '\d+'])]
     public function deleteUser(Participant $participant, EntityManagerInterface $em, MailSender $mailSender): Response
     {
         $sorties = $participant->getSorties();
-        if ($sorties->count()>0){
-            foreach ($sorties as $sortie){
+        if ($sorties->count() > 0) {
+            foreach ($sorties as $sortie) {
                 $em->remove($sortie);
                 $subjectParticipant = 'Sortie annulée';
-                $textParticipant = "La sortie '" . $sortie->getNom() . "' prévue le " . $sortie->getDateHeureDebut()->format('Y-m-d H:i:s') . " a été annulée pour les raisons suivantes : \n" ."l'utilisateur a supprimé son compte";
+                $textParticipant = "La sortie '" . $sortie->getNom() . "' prévue le " . $sortie->getDateHeureDebut()->format('Y-m-d H:i:s') . " a été annulée pour les raisons suivantes : \n" . "l'utilisateur a supprimé son compte";
                 foreach ($sortie->getInscrits() as $inscrit) {
                     $mailSender->sendEmail($subjectParticipant, $textParticipant, $inscrit->getEmail());
                 }
@@ -79,6 +91,7 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_list_user');
     }
+
     #[Route('/user/message/{id}', name: 'app_message_user')]
     public function contact(Request $request, MailSender $mailSender, Participant $participant): Response
     {
@@ -96,7 +109,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_message_user', ['id' => $participant->getId()]);
         }
 
-        return $this->render('user/MessageUser.html.twig',[
+        return $this->render('user/MessageUser.html.twig', [
             'form' => $form,
             'user' => $participant,
         ]);
