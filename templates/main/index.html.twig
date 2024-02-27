@@ -4,9 +4,10 @@
 
 {% block body %}
 
+
     <div class="grid">
         <div class="img">
-            <img src="{{ asset('img/bg.png') }}" alt="">
+            <img id="bg-img" src="{{ asset('img/bg'~ numPicture ~'.png') }}" alt="">
         </div>
         <div class="index-text">
             <h1 class="h1-main">Votre lieu pour programmer des activités avec vos collègues</h1>
@@ -16,4 +17,5 @@
                 Prêt à vivre des aventures inoubliables ? Rejoignez-nous et commencez à explorer dès maintenant! </p>
         </div>
     </div>
+
 {% endblock %}
