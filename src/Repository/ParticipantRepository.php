@@ -44,7 +44,7 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
     {
         $qb = $this->createQueryBuilder('s')
             ->andWhere('s.roles LIKE :role')
-            ->setParameter('role','%"' . 'ROLE_USER' . '"%');
+            ->setParameter('role', '%"' . 'ROLE_USER' . '"%');
 
         if (!empty($filters['actif'])) {
             $qb->andWhere('s.actif = :actif')
@@ -64,16 +64,17 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         return $qb->getQuery()->getResult();
     }
 
-        public function findByRole(string $role): array
+    public function findByRole(string $role): array
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.roles LIKE :role')
-            ->setParameter('role','%"' . $role . '"%')
+            ->setParameter('role', '%"' . $role . '"%')
             ->orderBy('p.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
+
+
 
 //    /**
 //     * @return Participant[] Returns an array of Participant objects

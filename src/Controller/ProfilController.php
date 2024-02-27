@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Form\ProfilType;
 use App\Form\RegistrationFormType;
 use App\Repository\ParticipantRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -18,12 +19,16 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ProfilController extends AbstractController
 {
     #[Route('/profil/{id}', name: 'app_profil')]
-    public function index(ParticipantRepository $participantRepository, int $id): Response
+    public function index(ParticipantRepository $participantRepository, int $id, SortieRepository $sortieRepository): Response
     {
         $user = $participantRepository->find($id);
+        $userSortie = $user->getSorties();
+        $userInscrit = $sortieRepository->findUserInscrit($id);
 
         return $this->render('profil/profil.html.twig', [
-            'user' => $user
+            'user' => $user,
+            'sortie' => $userSortie,
+            'inscrit'=>$userInscrit
         ]);
     }
 
