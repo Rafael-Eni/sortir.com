@@ -101,6 +101,10 @@ class SearchFormType extends AbstractType
                 'required' => false,
                 'label' => 'Sorties passées'
             ])
+            ->add('created', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Mes sorties créées'
+            ])
         ;
     }
 
