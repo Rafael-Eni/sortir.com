@@ -67,9 +67,9 @@ class SortieRepository extends ServiceEntityRepository
 
     {
         $dateLimite = new \DateTime();
-        $dateLimite->modify('-1 month');
         return $this->createQueryBuilder('s')
             ->andWhere('s.dateHeureDebut >= :dateLimite')
+            ->andWhere('s.etat != 6')
             ->setParameter('dateLimite', $dateLimite)
             ->getQuery()
             ->getResult();
