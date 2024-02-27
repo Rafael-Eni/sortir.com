@@ -31,7 +31,7 @@ class UserController extends AbstractController
 
             $listUser = $participantRepository->findUserByFilters($data);
         } else {
-            $listUser = $participantRepository->findAll();
+            $listUser = $participantRepository->findByRole("ROLE_USER");
         }
 
         return $this->render('user/userList.html.twig', [
@@ -51,6 +51,12 @@ class UserController extends AbstractController
     #[Route('/user/desactivate/{id}', name: 'app_desactivate_user')]
     public function desactivate(Participant $participant, EntityManagerInterface $entityManager, EmailVerifier $emailVerifier): Response
     {
+        $userRole = $participant->getRoles();
+
+        if (in_array('ROLE_ADMIN', $userRole)){
+            return $this->redirectToRoute('app_list_user');
+        }
+
         if ($participant->isActif()) {
             $participant->setActif(false);
         } else {
