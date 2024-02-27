@@ -69,10 +69,4 @@
 
     <div class="padding"></div>
 
-
-    {% if app.user.email == sortie.organisateur.email %}
-        {% if not sortie.isPublished %}
-            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
-        {% endif %}
-    {% endif %}
 {% endblock %}
