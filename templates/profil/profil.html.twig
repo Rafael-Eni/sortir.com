@@ -133,7 +133,11 @@
                         </div>
                     {% endif %}
                     {% if sortie is empty and inscrit is empty %}
-                        <h1 style="font-size: 1.8em">Vous n'avez créé aucune sortie et ne participez à rien !</h1>
+                        {% if not is_granted('ROLE_ADMIN') %}
+                            <h1 style="font-size: 1.8em">Vous n'avez créé aucune sortie et ne participez à rien !</h1>
+                        {% else %}
+                            <h1 style="font-size: 1.8em">T'es un admin bg, tu participes pas aux sorties</h1>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
