@@ -3,37 +3,62 @@
 {% block title %}Sortie{% endblock %}
 
 {% block body %}
-    <h1>Sortie</h1>
 
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Nom</th>
-            <td>{{ sortie.nom }}</td>
-        </tr>
-        <tr>
-            <th>DateHeureDebut</th>
-            <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-        </tr>
-        <tr>
-            <th>Ville organisatrice</th>
-            <td>{{ sortie.site.nom | upper }}</td>
-        </tr>
-        <tr>
-            <th>Lieu</th>
-            <td>{{ sortie.lieu.rue ~ ' ' ~ sortie.lieu.ville.codePostal ~ ' ' ~ sortie.lieu.ville.nom }}</td>
-        </tr>
-        <tr>
-            <th>Motif</th>
-            <td>
-                {{ form(form) }}
-            </td>
-        </tr>
-        </tbody>
+    <div class="sortie-detail">
 
-    </table>
+        <h1>Annuler l'évènement : {{ sortie.nom }}</h1>
+        <div class="grid">
 
-    <a href="{{ path('app_sortie_index') }}">back to list</a>
+            <div class="left-container">
+                <img src="{{ asset(profil_pic_dir ~ '/' ~ user.posterFile) }}" alt="avatar1"
+                     class="rounded-circle img-fluid" style="width: 150px;">
+                <div class="padding"></div>
+                <h4>Organisateur de l'évènement</h4>
+                <h3><a href="{{ path('app_profil', {'id': user.id}) }}">{{ user.prenom }} {{ user.nom }}</a></h3>
+            </div>
+
+            <div class="right-container">
+
+
+                <div class="padding"></div>
+
+
+                <h5>Date & heure de début</h5>
+                <p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</p>
+
+                <h5>Ville organisatrice</h5>
+                <p>{{ sortie.site.nom | upper }}</p>
+
+                <h5>Lieu</h5>
+                <p>{{ sortie.lieu.rue ~ ' ' ~ sortie.lieu.ville.codePostal ~ ' ' ~ sortie.lieu.ville.nom }}</p>
+
+                <h5>Motif de l'annulation</h5>
+
+
+                {{ form_start(form) }}
+                {{ form_rest(form) }}
+
+                <div class="padding"></div>
+
+                <div class="buttons">
+                    <button class="button-background" type="submit">Enregistrer</button>
+
+                    <a href="{{ path('app_sortie_index') }}" class="button-background">
+                        <i class="fa-solid fa-arrow-rotate-left"></i> Retour à la
+                        liste
+                    </a>
+                </div>
+                {{ form_end(form) }}
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="padding"></div>
+
 
     {% if app.user.email == sortie.organisateur.email %}
         {% if not sortie.isPublished %}

@@ -8,7 +8,9 @@
     {{ include('sortie/_form.html.twig') }}
 
 
-    <a href="{{ path('app_sortie_index') }}">Retour à la liste</a>
+    <a href="{{ path('app_sortie_index') }}">
+        <button class="button-background"><i class="fa-solid fa-arrow-rotate-left"></i> Retour à la liste</button>
+    </a>
 
     <div class="margin"></div>
 {% endblock %}

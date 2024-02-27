@@ -4,133 +4,123 @@
 
 {% block body %}
 
-    <div class="search-form">
-        <h1>Rechercher une sortie spécifique</h1>
-        {{ form_start(searchForm) }}
-        <div class="flex">
-            {{ form_row(searchForm.site) }}
-            {{ form_row(searchForm.search) }}
-            {{ form_row(searchForm.dateDebut) }}
-            {{ form_row(searchForm.dateFin) }}
+<div class="search-form">
+    <h1>Rechercher une sortie spécifique</h1>
+    {{ form_start(searchForm) }}
+    <div class="flex">
+        {{ form_row(searchForm.site) }}
+        {{ form_row(searchForm.search) }}
+        {{ form_row(searchForm.dateDebut) }}
+        {{ form_row(searchForm.dateFin) }}
+    </div>
+    <div class="flex">
+        <div class="gap">
+            {{ form_widget(searchForm.organisateur) }}
+            {{ form_label(searchForm.organisateur) }}
         </div>
-        <div class="flex">
-            <div class="gap">
-                {{ form_widget(searchForm.organisateur) }}
-                {{ form_label(searchForm.organisateur) }}
-            </div>
-            <div class="gap">
-                {{ form_widget(searchForm.participant) }}
-                {{ form_label(searchForm.participant) }}
-            </div>
-            <div class="gap">
-                {{ form_widget(searchForm.nonParticipant) }}
-                {{ form_label(searchForm.nonParticipant) }}
-            </div>
-            <div class="gap">
-                {{ form_widget(searchForm.finished) }}
-                {{ form_label(searchForm.finished) }}
-            </div>
+        <div class="gap">
+            {{ form_widget(searchForm.participant) }}
+            {{ form_label(searchForm.participant) }}
         </div>
-        <div class="padding"></div>
-        <div class="center">
-            <button type="submit" class="search-button">
-                RECHERCHER
-            </button>
+        <div class="gap">
+            {{ form_widget(searchForm.nonParticipant) }}
+            {{ form_label(searchForm.nonParticipant) }}
+        </div>
+        <div class="gap">
+            {{ form_widget(searchForm.finished) }}
+            {{ form_label(searchForm.finished) }}
         </div>
     </div>
-    {{ form_end(searchForm) }}
+    <div class="padding"></div>
+    <div class="center">
+        <button type="submit" class="search-button">
+            RECHERCHER
+        </button>
     </div>
+</div>
+{{ form_end(searchForm) }}
+</div>
 
-    <div class="margin"></div>
-    {% if not is_granted('ROLE_ADMIN') %}
-        <div class="button">
-            <a href="{{ path('app_sortie_new') }}">
-                <button>AJOUTER UNE SORTIE <i class="fa-solid fa-plus"></i></button>
+<div class="margin"></div>
+{% if not is_granted('ROLE_ADMIN') %}
+    <div class="button">
+        <a href="{{ path('app_sortie_new') }}">
+            <button>AJOUTER UNE SORTIE <i class="fa-solid fa-plus"></i></button>
+        </a>
+    </div>
+{% endif %}
+<div class="margin"></div>
+<div class="container">
+    {% if sorties is not null %}
+
+        {% for sortie in sorties %}
+
+        <div class="sortie">
+            <div class="left-container-sortie">
+
+                {% if app.user == sortie.organisateur %}
+                    <div class="flex-icon">
+                        <a href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">
+                            <i class="fa-regular fa-circle-xmark"></i>
+                        </a>
+
+                        {% if sortie.etat.libelle == "Créée" %}
+                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <div class="padding"></div>
+                {% if sortie.organisateur.posterFile is null %}
+                    {% if sortie.organisateur.sexe =='femme' %}
+                        <img src="{{ asset('img/femme-verte-aux-cheveux-bleus_24877-81805.jpg') }}"
+                             alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                    {% else %}
+                        <img src="{{ asset('img/avatarHomme.webp') }}"
+                             alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                    {% endif %}
+                {% else %}
+                    <img src="{{ asset(profil_pic_dir ~ '/' ~  sortie.organisateur.posterFile) }}" alt="avatar1"
+                         class="rounded-circle img-fluid" style="width: 150px;">
+                {% endif %}
+                <div class="padding"></div>
+                <h4>
+                    <a href="{{ path('app_profil', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</a>
+                </h4>
+
+                <div class="padding"></div>
+
+
+            </div>
+            <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">
+                <div class="right-container">
+
+
+                    <h3>{{ sortie.nom }}</h3>
+                    <h5>le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
+                        - {{ sortie.duree }}</h5>
+                    <div class="little-padding"></div>
+                    <p><b>Participants :</b><br> {{ sortie.inscrits | length }} / {{ sortie.nbInscriptionMax }}
+                    </p>
+                    <div class="little-padding"></div>
+                    <p><b>Description de la sortie: </b><br>{{ sortie.infosSortie }}</p>
+
+                </div>
             </a>
         </div>
+
+    {% endfor %}
+
+    {% else %}
+
+        <h3>Aucune sortie d'organisée</h3>
+
     {% endif %}
-    <div class="margin"></div>
-    <div class="container">
-        {% if sorties is not null %}
-
-            {% for sortie in sorties %}
-
-                <div class="sortie">
-                    <div class="left-container-sortie">
-
-                        {% if app.user == sortie.organisateur %}
-                            <div class="flex-icon">
-                                <a href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">
-                                    <i class="fa-regular fa-circle-xmark"></i>
-                                </a>
-
-                                <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </a>
-                            </div>
-                        {% endif %}
-
-                        <div class="padding"></div>
-                        {% if sortie.organisateur.posterFile is null %}
-                            {% if sortie.organisateur.sexe =='femme' %}
-                                <img src="{{ asset('img/femme-verte-aux-cheveux-bleus_24877-81805.jpg') }}"
-                                     alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                            {% else %}
-                                <img src="{{ asset('img/avatarHomme.webp') }}"
-                                     alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                            {% endif %}
-                        {% else %}
-                            <img src="{{ asset(profil_pic_dir ~ '/' ~  sortie.organisateur.posterFile) }}" alt="avatar1"
-                                 class="rounded-circle img-fluid" style="width: 150px;">
-                        {% endif %}
-                        <div class="padding"></div>
-                        <h4>
-                            <a href="{{ path('app_profil', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</a>
-                        </h4>
-
-                        <div class="padding"></div>
 
 
-                    </div>
-                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">
-                        <div class="right-container">
+</div>
 
-
-                            <h3>{{ sortie.nom }}</h3>
-                            <h5>le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
-                                - {{ sortie.duree }}</h5>
-                            <div class="little-padding"></div>
-                            <p><b>Participants :</b><br> {{ sortie.inscrits | length }} / {{ sortie.nbInscriptionMax }}
-                            </p>
-                            <div class="little-padding"></div>
-                            <p><b>Description de la sortie: </b><br>{{ sortie.infosSortie }}</p>
-
-                        </div>
-                    </a>
-                </div>
-
-            {% endfor %}
-        {% else %}
-            <h3>Aucune sortie d'organisée</h3>
-
-            <td>
-                <div class="flex">
-                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}"><i
-                                class="fa-solid fa-magnifying-glass"></i></a>
-                    {% if app.user.email == sortie.organisateur.email %}
-                        {% if not sortie.isPublished %}
-                            <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}"><i
-                                        class="fa-solid fa-pencil"></i></a>
-                        {% endif %}
-                        <a href="{{ path('app_sortie_delete', {'id': sortie.id}) }}"><i
-                                    class="fa-solid fa-trash-can"></i></a>
-                    {% endif %}
-                </div>
-            </td>
-        {% endif %}
-
-
-    </div>
-
-    <div class="margin"></div>
+<div class="margin"></div>
 {% endblock %}
