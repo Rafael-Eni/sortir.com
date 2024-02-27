@@ -365,7 +365,7 @@ nav li a {
     display: grid;
     grid-template-columns: 30% 70%;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    padding: 10px;
+    padding: 15px;
     align-items: center;
 }
 
@@ -439,8 +439,8 @@ nav li a {
 }
 
 .right-container {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 30px;
+    padding-right: 10px;
 }
 
 .left-container h4 {
@@ -488,12 +488,14 @@ h3 {
     color: #399D7B;
     font-family: 'DM Serif Display', serif;
     font-weight: 600;
+    text-overflow: ellipsis;
 }
 
 .sortie h4, .sortie h5, .sortie p, .sortie h6 {
     color: black;
     font-family: 'Montserrat', sans-serif;
     margin: 0;
+    text-overflow: ellipsis;
 }
 
 .sortie h4 {

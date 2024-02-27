@@ -15,7 +15,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 {% include "partials/_header.html.twig" %}
-<div class="w-50 my-2 mx-auto">
+<div class="w-50 mx-auto">
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ label }} text-center"> {{ message }} </div>
