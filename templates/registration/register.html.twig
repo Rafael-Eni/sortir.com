@@ -16,11 +16,9 @@
         {% endif %}
 
         <div class="padding"></div>
-        {% if 'ROLE_ADMIN' not in app.user.roles %}
         <div class="forget-password">
             <p>Déjà membre ? <a href="{{ path('app_login') }}"><b>Se connecter</b></a></p>
         </div>
-        {% endif %}
     </div>
     {{ form_end(registrationForm) }}
 

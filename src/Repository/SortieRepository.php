@@ -36,9 +36,7 @@ class SortieRepository extends ServiceEntityRepository
         }
         if (!empty($filters['participant'])) {
             $qb->andWhere('inscrits = :participant')
-                ->setParameter('participant', $filters['participant'])
-                ->andWhere('s.etat = :etat')
-                ->setParameter('etat', 2);
+                ->setParameter('participant', $filters['participant']);
         }
         if (!empty($filters['nonParticipant'])) {
             $subQueryBuilder = $this->createQueryBuilder('sub')
@@ -47,9 +45,8 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('sub_inscrits.id = :nonParticipant');
 
             $qb->andWhere($qb->expr()->notIn('s.id', $subQueryBuilder->getDQL()))
-                ->setParameter('nonParticipant', $filters['nonParticipant'])
-                ->andWhere('s.etat = :etat')
-                ->setParameter('etat', 2);
+                ->setParameter('nonParticipant', $filters['nonParticipant']);
+
         }
         if (!empty($filters['finished'])) {
             $qb->andWhere('s.etat = :etat')

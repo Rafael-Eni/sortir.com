@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\FileFormType;
-use App\Form\RegistrationFormType;
 use App\Helper\MailSender;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +30,6 @@ class RegistrationAdminController extends AbstractController
     }
 
 
-
     #[Route('/admin/fichier-csv', name: 'app_registration_admin')]
     public function registrationAdmin(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository, MailSender $mailSender, SluggerInterface $slugger): Response
     {
@@ -47,7 +45,6 @@ class RegistrationAdminController extends AbstractController
             if ($existingMailUser) {
                 return $this->redirectToRoute('app_register');
             }
-
 
 
             if (!empty($fileCSV) && $fileCSV instanceof UploadedFile) {
@@ -83,6 +80,12 @@ class RegistrationAdminController extends AbstractController
                         // Remplissez les propriétés de l'entité avec les valeurs du fichier CSV
                         $participant->setEmail($data[0]); // Assurez-vous d'ajuster l'indice en fonction de votre fichier CSV
                         $participant->setPassword($data[1]);
+                        $participant->setPassword(
+                            $userPasswordHasher->hashPassword(
+                                $participant,
+                                $data[1]
+                            )
+                        );
                         $participant->setNom($data[2]);
                         $participant->setPrenom($data[3]);
                         $participant->setTelephone($data[4]);
@@ -107,7 +110,7 @@ class RegistrationAdminController extends AbstractController
                     $this->addFlash('error', 'Impossible d\'ouvrir le fichier CSV.');
                 }
 
-                return $this->redirectToRoute('app_register');
+                return $this->redirectToRoute('app_main');
             }
 
             $user->setRoles(['ROLE_USER']);
@@ -123,7 +126,7 @@ class RegistrationAdminController extends AbstractController
 
             $this->addFlash("success", "Ton compte doit être validé par un admin. Nous t'enverrons un email de confirmation sous 24h");
 
-            return $this->redirectToRoute('app_register_index');
+            return $this->redirectToRoute('app_main');
         }
 
         return $this->render('admin/fichier-csv.html.twig', [

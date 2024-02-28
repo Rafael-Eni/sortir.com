@@ -56,9 +56,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $sexe = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $fileCSV = null;
-
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
     private Collection $sorties;
 
@@ -277,19 +274,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSiteRattachement(?Site $siteRattachement): static
     {
         $this->siteRattachement = $siteRattachement;
-
-        return $this;
-    }
-
-
-    public function getFileCSV(): string
-    {
-        return $this->fileCSV;
-    }
-
-    public function setFileCSV(string $fileCSV): self
-    {
-        $this->fileCSV = $fileCSV;
 
         return $this;
     }
