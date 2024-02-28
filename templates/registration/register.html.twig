@@ -11,10 +11,16 @@
     <div class="padding"></div>
 
     {{ form_start(registrationForm) }}
-        {{ form_rest(registrationForm) }}
+    {{ form_rest(registrationForm) }}
     <div class="button">
         <div class="padding"></div>
-        <button type="submit">S'inscrire</button>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <button type="submit">Inscription</button>
+        {% else %}
+            <button type="submit">S'inscrire</button>
+        {% endif %}
+
         <div class="padding"></div>
         <div class="forget-password">
             <p>Déjà membre ? <a href="{{ path('app_login') }}"><b>Se connecter</b></a></p>
