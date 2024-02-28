@@ -40,14 +40,13 @@
         <div class="padding"></div>
     </div>
     {{ form_end(form) }}
+    <a href="{{ path('app_sortie_index') }}">
+        <button class="button-background"><i class="fa-solid fa-arrow-rotate-left"></i> Retour à la liste</button>
+    </a>
 
     <div id="map">
         <!-- Ici s'affichera la carte -->
     </div>
-
-    <a href="{{ path('app_sortie_index') }}">
-        <button class="button-background"><i class="fa-solid fa-arrow-rotate-left"></i> Retour à la liste</button>
-    </a>
 
     <div class="margin"></div>
 

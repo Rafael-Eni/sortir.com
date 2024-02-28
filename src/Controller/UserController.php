@@ -7,6 +7,7 @@ use App\Form\ContactType;
 use App\Form\UserType;
 use App\Helper\MailSender;
 use App\Repository\ParticipantRepository;
+use App\Repository\SortieRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -41,10 +42,16 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/detail/{id}', name: 'app_detail_user')]
-    public function detail(Participant $participant): Response
+    public function detail(Participant $participant, SortieRepository $sortieRepository, ParticipantRepository $participantRepository, int $id): Response
     {
+        $user = $participantRepository->find($id);
+        $userSortie = $user->getSorties();
+        $userInscrit = $sortieRepository->findUserInscrit($id);
+
         return $this->render('profil/profil.html.twig', [
-            'user' => $participant
+            'user' => $participant,
+            'sortie' => $userSortie,
+            'inscrit'=>$userInscrit
         ]);
     }
 

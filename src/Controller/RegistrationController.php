@@ -47,30 +47,35 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
-            $role = $this->getUser()->getRoles();
-            if (in_array('ROLE_ADMIN', $role)) {
-                $this->addFlash("success", "L'utilisateur a reçu un email de vérification");
-                $user->setActif(true);
+            $userAdmin = $this->getUser();
+            if ($userAdmin !== null && $userAdmin->getRoles() !== null) {
+                $role = $userAdmin->getRoles();
+                if (in_array('ROLE_ADMIN', $role)) {
+                    $this->addFlash("success", "L'utilisateur a reçu un email de vérification");
+                    $user->setActif(true);
+                }
             } else {
                 $this->addFlash("success", "Ton compte doit être validé par un admin. Nous t'enverrons un email de confirmation sous 24h");
                 $user->setActif(false);
             }
+
             $user->setRoles(['ROLE_USER']);
             $user->setIsVerified(false);
 
             $entityManager->persist($user);
             $entityManager->flush();
-
-            if (in_array('ROLE_ADMIN', $role)) {
-                $emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                    (new TemplatedEmail())
-                        ->from(new Address('noreply@sortir.com', 'admin'))
-                        ->to($user->getEmail())
-                        ->subject('Please Confirm your Email')
-                        ->htmlTemplate('registration/confirmation_email.html.twig')
-                );
+            if ($userAdmin !== null && $userAdmin->getRoles() !== null) {
+                if (in_array('ROLE_ADMIN', $role)) {
+                    $emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                        (new TemplatedEmail())
+                            ->from(new Address('noreply@sortir.com', 'admin'))
+                            ->to($user->getEmail())
+                            ->subject('Please Confirm your Email')
+                            ->htmlTemplate('registration/confirmation_email.html.twig')
+                    );
+                }
             }
+
 
             $subject = 'Nouvelle inscription';
             $text = 'Un nouvelle utilisateur vient de s\'inscrire : ' . $user->getNom() . ' ' . $user->getPrenom() . ' ' . $user->getEmail();
