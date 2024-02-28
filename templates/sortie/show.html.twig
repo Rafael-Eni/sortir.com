@@ -95,6 +95,7 @@
                     </div>
                 </div>
                 {% if sortie.inscrits is not empty %}
+                    <div class="padding"></div>
                     <h4>Participants</h4>
                     <div class="flex-participants">
                         {% for inscrit in sortie.inscrits %}
@@ -115,6 +116,7 @@
                                     {% endif %}
                                     <p class="inscrit-nom">{{ inscrit.prenom }} {{ inscrit.nom }}</p>
                                 </a>
+                                <div class="padding"></div>
                             </div>
 
                         {% endfor %}
