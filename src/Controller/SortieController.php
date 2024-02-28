@@ -38,6 +38,7 @@ class SortieController extends AbstractController
             if (empty($filteredData)) {
                 $sorties = $sortieRepository->findAllStartingWithinMonth();
             } else {
+
                 $data['organisateur'] = $data['organisateur'] ? $this->getUser()->getId() : false;
                 $data['participant'] = $data['participant'] ? $this->getUser()->getId() : false;
                 $data['nonParticipant'] = $data['nonParticipant'] ? $this->getUser()->getId() : false;
