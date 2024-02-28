@@ -92,8 +92,13 @@
                         <div class="col-md-6">
                             <div class="card mb-4 mb-md-0">
                                 <div class="card-body">
-                                    <p class="mb-4"><span class="text-primary font-italic me-1">Sortie</span> créée
+                                    {% if sortie | length > 1 %}
+                                    <p class="mb-4"><span class="text-primary font-italic me-1">Sorties</span> créées
                                     </p>
+                                    {% else %}
+                                        <p class="mb-4"><span class="text-primary font-italic me-1">Sortie</span> créée
+                                        </p>
+                                    {% endif %}
                                     {% for sortie in sortie %}
                                         <div class="right-container">
 
@@ -114,8 +119,13 @@
                         <div class="col-md-6">
                             <div class="card mb-4 mb-md-0">
                                 <div class="card-body">
-                                    <p class="mb-4"><span class="text-primary font-italic me-1">Evenement</span> rejoint
+                                    {% if inscrit | length > 1 %}
+                                    <p class="mb-4"><span class="text-primary font-italic me-1">Evenements</span> rejoints
                                     </p>
+                                    {% else %}
+                                        <p class="mb-4"><span class="text-primary font-italic me-1">Evenement</span> rejoint
+                                        </p>
+                                    {% endif %}
                                     {% for sortie in inscrit %}
                                         <div class="right-container">
 
