@@ -21,7 +21,7 @@ class LieuType extends AbstractType
                 'label' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci de renseigner votre prénom',
+                        'message' => 'Merci de renseigner le lieu',
                     ])
                 ],
                 'row_attr' => [
@@ -31,7 +31,7 @@ class LieuType extends AbstractType
                     'class' => 'label'
                 ],
                 'attr' => [
-                    'placeholder' => 'Nom',
+                    'placeholder' => 'Lieu de la sortie',
                     'class' => 'input'
                 ]
             ])
