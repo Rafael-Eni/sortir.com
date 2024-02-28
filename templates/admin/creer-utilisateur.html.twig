@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EniSorties | Créer un nouvel utilisateur{% endblock %}
+
+{% block body %}
+
+    <h1>Créer un utilisateur</h1>
+    <div class="padding"></div>
+
+    <div class="button">
+        <div class="padding"></div>
+        <a href="{{ path('app_registration_admin') }}">
+            <button type="submit">Inscrire un utilisateur via un fichier CSV</button>
+        </a>
+        <div class="padding"></div>
+        <p class="label-CSV">ou</p>
+        <div class="padding"></div>
+        <a href="{{ path('app_register') }}">
+            <button type="submit">Inscrire un utilisateur manuellement</button>
+        </a>
+        <div class="padding"></div>
+    </div>
+
+    <div class="padding"></div>
+    <div class="padding"></div>
+
+{% endblock %}

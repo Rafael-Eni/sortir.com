@@ -3,12 +3,6 @@
 {% block title %}EniSorties | Inscription{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-
-    <h1>Inscription</h1>
-    <div class="padding"></div>
 
     {{ form_start(registrationForm) }}
     {{ form_rest(registrationForm) }}
@@ -22,12 +16,15 @@
         {% endif %}
 
         <div class="padding"></div>
+        {% if 'ROLE_ADMIN' not in app.user.roles %}
         <div class="forget-password">
             <p>Déjà membre ? <a href="{{ path('app_login') }}"><b>Se connecter</b></a></p>
         </div>
+        {% endif %}
     </div>
     {{ form_end(registrationForm) }}
 
     <div class="padding"></div>
     <div class="padding"></div>
+
 {% endblock %}

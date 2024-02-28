@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EniSorties | Créer un nouvel utilisateur{% endblock %}
+
+{% block body %}
+
+
+
+    <h1>Créer un utilisateur via fichier CSV</h1>
+    <div class="padding"></div>
+
+    {% if app.user and is_granted('ROLE_ADMIN') %}
+        {{ form_start(CSVForm) }}
+        {{ form_row(CSVForm.fichierCSV) }}
+        <div class="button">
+            <div class="padding"></div>
+            <button type="submit">S'inscrire</button>
+        </div>
+        {{ form_end(CSVForm) }}
+    {% endif %}
+
+{% endblock %}
