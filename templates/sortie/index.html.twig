@@ -46,7 +46,7 @@
         {{ form_end(searchForm) }}
     </div>
 
-    <div class="margin"></div>
+    <div class="padding"></div>
     {% if not is_granted('ROLE_ADMIN') %}
         <div class="button">
             <a href="{{ path('app_sortie_new') }}">
@@ -54,7 +54,7 @@
             </a>
         </div>
     {% endif %}
-    <div class="margin"></div>
+    <div class="padding"></div>
     <div class="container">
         {% if sorties is not null %}
 

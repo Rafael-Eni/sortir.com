@@ -355,11 +355,12 @@ nav li a {
 }
 
 .container {
-    width: 90%;
+    width: 100%;
     display: grid;
     grid-template-columns: 32% 32% 32%;
     gap: 20px;
     justify-content: space-between;
+    padding: 0;
 }
 
 .margin {
@@ -381,7 +382,7 @@ nav li a {
     background-color: #f5f5f5;
     padding: 30px;
     min-height: 500px;
-    width: 70%;
+    width: 100%;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
@@ -389,7 +390,7 @@ nav li a {
     background-color: #f5f5f5;
     padding: 30px;
     min-height: 300px;
-    width: 80%;
+    width: 100%;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     display: flex;
     flex-direction: column;
