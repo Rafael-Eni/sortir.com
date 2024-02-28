@@ -132,8 +132,10 @@
                             </div>
                         </div>
                     {% endif %}
+                </div>
+                <div>
                     {% if sortie is empty and inscrit is empty %}
-                        {% if not is_granted('ROLE_ADMIN') %}
+                        {% if 'ROLE_ADMIN' not in user.roles %}
                             <h1 style="font-size: 1.8em">Vous n'avez créé aucune sortie et ne participez à rien !</h1>
                         {% else %}
                             <h1 style="font-size: 1.8em">T'es un admin bg, tu participes pas aux sorties</h1>

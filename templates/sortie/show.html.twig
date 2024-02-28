@@ -75,11 +75,11 @@
                 <h5>Voir adresse de l'évènement</h5>
                 <!-- Button trigger modal -->
                 <p>
-                    <button type="button" class="button-profil-background" data-bs-toggle="modal" data-bs-target="#address">
+                    <button type="button" class="button-profil-background" data-bs-toggle="modal"
+                            data-bs-target="#address">
                         Voir la carte
                     </button>
                 </p>
-
                 <!-- Modal -->
                 <div class="modal fade" id="address" tabindex="-1" aria-labelledby="mapsModal" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -90,79 +90,73 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="button-profil-background" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="button-profil-background" data-bs-dismiss="modal">Close
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% if sortie.inscrits is not empty %}
+                    <h4>Participants</h4>
+                    <div class="flex-participants">
+                        {% for inscrit in sortie.inscrits %}
+                            <div class="participant">
+                                <a href="{{ path('app_profil', {'id': inscrit.id}) }}">
+                                    {% if inscrit.posterFile is null %}
+                                        {% if inscrit.sexe =='femme' %}
+                                            <img src="{{ asset('img/avatarFemme.png') }}"
+                                                 alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                                        {% else %}
+                                            <img src="{{ asset('img/avatarHomme.webp') }}"
+                                                 alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                                        {% endif %}
+                                    {% else %}
+                                        <img src="{{ asset(profil_pic_dir ~ '/' ~  inscrit.posterFile) }}"
+                                             alt="avatar1"
+                                             class="rounded-circle img-fluid" style="width: 150px;">
+                                    {% endif %}
+                                    <p class="inscrit-nom">{{ inscrit.prenom }} {{ inscrit.nom }}</p>
+                                </a>
+                            </div>
 
-                {% if sortie.etat.libelle == 'Ouverte' %}
-                    {% if app.user in sortie.inscrits and app.user != sortie.organisateur %}
-                        <a class="" href="{{ path('app_sortie_unsubscribe', {'id': sortie.id}) }}">
-                            <button class="button-profil-background">
-                                Se désincrire de
-                                l'évènement
-                            </button>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if sortie.etat.libelle == 'Ouverte' or sortie.etat.libelle == 'Clôturée' %}
+                    {% if app.user != sortie.organisateur and app.user in sortie.inscrits %}
+                        <a class="button-profil-background"
+                           href="{{ path('app_sortie_unsubscribe', {'id': sortie.id}) }}">
+                            Se désincrire de
+                            l'évènement
                         </a>
                         <div class="padding"></div>
-                    {% elseif app.user != sortie.organisateur and app.user != sortie.organisateur.roles != '["ROLE_ADMIN"]' %}
-                        <a href="{{ path('app_sortie_suscribe', {'id': sortie.id}) }}">
-                            <button class="button-profil-background">S'inscrire
-                                à l'évènement
-                            </button>
+                    {% elseif app.user != sortie.organisateur and app.user.roles != '["ROLE_ADMIN"]' %}
+                        <a class="button-profil-background" href="{{ path('app_sortie_suscribe', {'id': sortie.id}) }}">
+                            S'inscrire
+                            à l'évènement
                         </a>
                         <div class="padding"></div>
                     {% endif %}
-
-                        {% endif %}
-                    </div>
-                <div>
-                    {% if app.user == sortie.organisateur %}
-                        {% if sortie.etat.libelle == "Ouverte" %}
-                            <a class="button-profil-background"
-                               href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">
-                                Annuler
-                                l'évènement
-                            </a>
-                            <div class="padding"></div>
-                        {% endif %}
-                        {% if sortie.etat.libelle == "Créée" %}
-                            <a class="button-profil-background" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">
-                                Modifier
-                                l'évènement
-                            </button>
+                {% endif %}
+                {% if app.user == sortie.organisateur %}
+                    {% if sortie.etat.libelle == "Ouverte" %}
+                        <a class="button-profil-background"
+                           href="{{ path('app_sortie_cancel', {'id': sortie.id}) }}">
+                            Annuler
+                            l'évènement
                         </a>
+                        <div class="padding"></div>
+                    {% endif %}
+                    {% if sortie.etat.libelle == "Créée" %}
+                        <a class="button-profil-background" href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">
+                            Modifier
+                        </a>
+                        <div class="padding"></div>
+                        {% include "sortie/_delete_form.html.twig" %}
                     {% endif %}
                     <div class="padding"></div>
                 {% endif %}
 
-                {% if sortie.inscrits is not empty %}
-                <h4>Participants</h4>
-                <div class="flex-participants">
-                    {% for inscrit in sortie.inscrits %}
-
-                        <div class="participant">
-                            <a href="{{ path('app_profil', {'id': inscrit.id}) }}">
-                                {% if sortie.organisateur.posterFile is null %}
-                                    {% if sortie.organisateur.sexe =='femme' %}
-                                        <img src="{{ asset('img/femme-verte-aux-cheveux-bleus_24877-81805.jpg') }}"
-                                             alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                                    {% else %}
-                                        <img src="{{ asset('img/avatarHomme.webp') }}"
-                                             alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                                    {% endif %}
-                                {% else %}
-                                    <img src="{{ asset(profil_pic_dir ~ '/' ~  sortie.organisateur.posterFile) }}"
-                                         alt="avatar1"
-                                         class="rounded-circle img-fluid" style="width: 150px;">
-                                {% endif %}
-                                <p class="inscrit-nom">{{ inscrit.prenom }} {{ inscrit.nom }}</p>
-                            </a>
-                        </div>
-
-                    {% endfor %}
-                    {% endif %}
-                </div>
             </div>
         </div>
     </div>
