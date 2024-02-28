@@ -183,10 +183,10 @@
             let marker = L.marker([lat, lon]).addTo(macarte);
         }
 
-        window.onload = function () {
-            // Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
+        document.getElementById('address').addEventListener('shown.bs.modal', function () {
+            // Initialiser la carte une fois que la modal est affichée
             initMap();
-        };
+        });
     </script>
 
 

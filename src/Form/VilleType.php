@@ -29,7 +29,7 @@ class VilleType extends AbstractType
                     'class' => 'label'
                 ],
                 'attr' => [
-                    'placeholder' => 'Nom',
+                    'placeholder' => 'Ville',
                     'class' => 'input'
                 ]
             ])
