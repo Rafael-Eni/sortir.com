@@ -28,15 +28,16 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository, MailSender $mailSender): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository, MailSender $mailSender, EmailVerifier $emailVerifier): Response
     {
         $user = new Participant();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         $existingMailUser = $participantRepository->findOneBy(['email' => $user->getEmail()]);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($existingMailUser){
+            if ($existingMailUser) {
                 return $this->redirectToRoute('app_register');
             }
             // encode the plain password
@@ -47,18 +48,33 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $role = $this->getUser()->getRoles();
+            if (in_array('ROLE_ADMIN', $role)) {
+                $this->addFlash("success", "L'utilisateur a reçu un email de vérification");
+                $user->setActif(true);
+            } else {
+                $this->addFlash("success", "Ton compte doit être validé par un admin. Nous t'enverrons un email de confirmation sous 24h");
+                $user->setActif(false);
+            }
             $user->setRoles(['ROLE_USER']);
-            $user->setActif(false);
             $user->setIsVerified(false);
 
             $entityManager->persist($user);
             $entityManager->flush();
 
+            if (in_array('ROLE_ADMIN', $role)) {
+                $emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('noreply@sortir.com', 'admin'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
+            }
+
             $subject = 'Nouvelle inscription';
             $text = 'Un nouvelle utilisateur vient de s\'inscrire : ' . $user->getNom() . ' ' . $user->getPrenom() . ' ' . $user->getEmail();
             $mailSender->sendEmail($subject, $text, 'admin@sortir.com');
-
-            $this->addFlash("success", "Ton compte doit être validé par un admin. Nous t'enverrons un email de confirmation sous 24h");
 
             return $this->redirectToRoute('app_main');
         }
@@ -78,7 +94,6 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-
             return $this->redirectToRoute('app_register');
         }
 
