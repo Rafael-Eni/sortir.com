@@ -5,44 +5,45 @@
 {% block body %}
 
     <div class="search-form">
-        <h1>Rechercher une sortie spécifique</h1>
-        {{ form_start(searchForm) }}
-        <div class="flex">
-            {{ form_row(searchForm.site) }}
-            {{ form_row(searchForm.search) }}
-            {{ form_row(searchForm.dateDebut) }}
-            {{ form_row(searchForm.dateFin) }}
+        <div>
+            <h1>Rechercher une sortie spécifique</h1>
+            {{ form_start(searchForm) }}
+            <div class="flex">
+                {{ form_row(searchForm.site) }}
+                {{ form_row(searchForm.search) }}
+                {{ form_row(searchForm.dateDebut) }}
+                {{ form_row(searchForm.dateFin) }}
+            </div>
+            <div class="flex">
+                <div class="gap">
+                    {{ form_widget(searchForm.organisateur) }}
+                    {{ form_label(searchForm.organisateur) }}
+                </div>
+                <div class="gap">
+                    {{ form_widget(searchForm.participant) }}
+                    {{ form_label(searchForm.participant) }}
+                </div>
+                <div class="gap">
+                    {{ form_widget(searchForm.nonParticipant) }}
+                    {{ form_label(searchForm.nonParticipant) }}
+                </div>
+                <div class="gap">
+                    {{ form_widget(searchForm.finished) }}
+                    {{ form_label(searchForm.finished) }}
+                </div>
+                <div class="gap">
+                    {{ form_widget(searchForm.created) }}
+                    {{ form_label(searchForm.created) }}
+                </div>
+            </div>
+            <div class="padding"></div>
+            <div class="center">
+                <button type="submit" class="search-button">
+                    RECHERCHER
+                </button>
+            </div>
         </div>
-        <div class="flex">
-            <div class="gap">
-                {{ form_widget(searchForm.organisateur) }}
-                {{ form_label(searchForm.organisateur) }}
-            </div>
-            <div class="gap">
-                {{ form_widget(searchForm.participant) }}
-                {{ form_label(searchForm.participant) }}
-            </div>
-            <div class="gap">
-                {{ form_widget(searchForm.nonParticipant) }}
-                {{ form_label(searchForm.nonParticipant) }}
-            </div>
-            <div class="gap">
-                {{ form_widget(searchForm.finished) }}
-                {{ form_label(searchForm.finished) }}
-            </div>
-            <div class="gap">
-                {{ form_widget(searchForm.created) }}
-                {{ form_label(searchForm.created) }}
-            </div>
-        </div>
-        <div class="padding"></div>
-        <div class="center">
-            <button type="submit" class="search-button">
-                RECHERCHER
-            </button>
-        </div>
-    </div>
-    {{ form_end(searchForm) }}
+        {{ form_end(searchForm) }}
     </div>
 
     <div class="margin"></div>

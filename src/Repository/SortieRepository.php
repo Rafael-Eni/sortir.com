@@ -30,15 +30,26 @@ class SortieRepository extends ServiceEntityRepository
 
         if (!empty($filters['organisateur'])) {
             $qb->andWhere('s.organisateur = :organisateur')
-                ->setParameter('organisateur', $filters['organisateur']);
+                ->setParameter('organisateur', $filters['organisateur'])
+                ->andWhere('s.etat = :etat')
+                ->setParameter('etat', 2);
         }
         if (!empty($filters['participant'])) {
             $qb->andWhere('inscrits = :participant')
-                ->setParameter('participant', $filters['participant']);
+                ->setParameter('participant', $filters['participant'])
+                ->andWhere('s.etat = :etat')
+                ->setParameter('etat', 2);
         }
         if (!empty($filters['nonParticipant'])) {
-            $qb->andWhere('inscrits != :non_participant')
-                ->setParameter('non_participant', $filters['nonParticipant']);
+            $subQueryBuilder = $this->createQueryBuilder('sub')
+                ->select('sub.id')
+                ->leftJoin('sub.inscrits', 'sub_inscrits')
+                ->andWhere('sub_inscrits.id = :nonParticipant');
+
+            $qb->andWhere($qb->expr()->notIn('s.id', $subQueryBuilder->getDQL()))
+                ->setParameter('nonParticipant', $filters['nonParticipant'])
+                ->andWhere('s.etat = :etat')
+                ->setParameter('etat', 2);
         }
         if (!empty($filters['finished'])) {
             $qb->andWhere('s.etat = :etat')
@@ -46,19 +57,27 @@ class SortieRepository extends ServiceEntityRepository
         }
         if (!empty($filters['search'])) {
             $qb->andWhere('s.nom LIKE :nom')
-                ->setParameter('nom', '%' . $filters['search'] . '%');
+                ->setParameter('nom', '%' . $filters['search'] . '%')
+                ->andWhere('s.etat = :etat')
+                ->setParameter('etat', 2);
         }
         if (!empty($filters['site'])) {
             $qb->andWhere('s.site = :site')
-                ->setParameter('site', $filters['site']);
+                ->setParameter('site', $filters['site'])
+                ->andWhere('s.etat = :etat')
+                ->setParameter('etat', 2);
         }
         if (!empty($filters['dateDebut'])) {
             $qb->andWhere('s.dateHeureDebut >= :dateDebut')
-                ->setParameter('dateDebut', $filters['dateDebut']);
+                ->setParameter('dateDebut', $filters['dateDebut'])
+                ->andWhere('s.etat = :etat')
+                ->setParameter('etat', 2);
         }
         if (!empty($filters['dateFin'])) {
             $qb->andWhere('s.dateHeureDebut <= :dateFin')
-                ->setParameter('dateFin', $filters['dateFin']);
+                ->setParameter('dateFin', $filters['dateFin'])
+                ->andWhere('s.etat = :etat')
+                ->setParameter('etat', 2);
         }
         if (!empty($filters['created'])) {
             $qb->andWhere('s.etat = :created')
@@ -75,10 +94,13 @@ class SortieRepository extends ServiceEntityRepository
             ->andWhere('s.dateHeureDebut >= :dateLimite')
             ->andWhere('s.etat != 6')
             ->andWhere('s.etat != 1')
+            ->andWhere('s.etat = :etat')
+            ->setParameter('etat', 2)
             ->setParameter('dateLimite', $dateLimite)
             ->getQuery()
             ->getResult();
     }
+
     public function findUserInscrit(int $id): array
     {
         $qb = $this->createQueryBuilder('p')
