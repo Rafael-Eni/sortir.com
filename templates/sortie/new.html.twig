@@ -29,8 +29,14 @@
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {% if api %}
-        <input type="hidden" name="lat" value="{{ api.features[0].geometry.coordinates[1] }}">
-        <input type="hidden" name="lon" value="{{ api.features[0].geometry.coordinates[0] }}">
+        {% if api.features is not empty %}
+            <input type="hidden" name="lat" value="{{ api.features[0].geometry.coordinates[1] }}">
+            <input type="hidden" name="lon" value="{{ api.features[0].geometry.coordinates[0] }}">
+        {% else %}
+            <input type="hidden" name="lat" value="47.22592083147924">
+            <input type="hidden" name="lon" value="-1.6178570288357943">
+        {% endif %}
+
     {% endif %}
     <div class="button">
         <div class="padding"></div>
@@ -50,7 +56,7 @@
 
     <div class="margin"></div>
 
-    {% if api %}
+    {% if api and api.features is not empty %}
         <script type="text/javascript">
             // On initialise la latitude et la longitude de Paris (centre de la carte)
             let lat = {{ api.features[0].geometry.coordinates[1] }};
