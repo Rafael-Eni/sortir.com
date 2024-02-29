@@ -34,7 +34,7 @@
 
 
                 <h5>Date & heure de début</h5>
-                <p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</p>
+                <p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y') : ''}}</p>
 
                 <h5>Ville organisatrice</h5>
                 <p>{{ sortie.site.nom | upper }}</p>

@@ -58,13 +58,13 @@
 
 
                 <h5>Date & heure de début</h5>
-                <p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</p>
+                <p>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y') : '' }}</p>
 
                 <h5>Durée de l'évènement</h5>
                 <p>{{ sortie.duree }}</p>
 
                 <h5>Date limite de l'inscription</h5>
-                <p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d') : '' }}</p>
+                <p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y') : '' }}</p>
 
                 <h5>Nombre d'inscription maximum</h5>
                 <p>{{ sortie.nbInscriptionMax }}</p>

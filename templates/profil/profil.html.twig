@@ -105,7 +105,7 @@
                                             <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}"><h6
                                                         class="titreSortieProfil">{{ sortie.nom }}</h6></a>
                                             <h5>
-                                                le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
+                                                le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y') : '' }}
                                                 - {{ sortie.duree }}</h5>
                                             <p><b>Description de la sortie: </b><br>{{ sortie.infosSortie }}</p>
                                             <hr>
@@ -132,7 +132,7 @@
                                             <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}"><h6
                                                         class="titreSortieProfil">{{ sortie.nom }}</h6></a>
                                             <h5>
-                                                le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
+                                                le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y') : '' }}
                                                 - {{ sortie.duree }}</h5>
                                             <p><b>Description de la sortie: </b><br>{{ sortie.infosSortie }}</p>
                                             <hr>

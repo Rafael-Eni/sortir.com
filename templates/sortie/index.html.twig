@@ -109,7 +109,7 @@
                                 <h3>{{ sortie.nom }}</h3>
                             {% endif %}
                             <hr>
-                            <h5>le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y à H:i') : '' }}
+                            <h5>le {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y') : '' }}
                                 - {{ sortie.duree }}</h5>
                             <div class="little-padding"></div>
                             <p><b>Participants :</b><br> {{ sortie.inscrits | length }} / {{ sortie.nbInscriptionMax }}
